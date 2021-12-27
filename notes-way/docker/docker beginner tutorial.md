@@ -20,10 +20,11 @@
 > $ docker run -it <name>
 > ```
 > **these flags attaches us to an interactive *tty* in the container**. Now we can run as many commands in the container as we want.
-4. `docker ps` - show all containers that are currently running
-5. `docker <docker command> --help` - for list of all flags this command support
-6. `docker rmi` - delete images that you no longer need by running
-7. `docker rm <id>` - delete container by id
+4. `docker stop <container ID>` - stop running container
+5. `docker ps` - show all containers that are currently running
+6. `docker <docker command> --help` - for list of all flags this command support
+7. `docker rmi` - delete images that you no longer need by running
+8. `docker rm <id>` - delete container by id
 > **Hint:** use this for deletes all containers that have a status of exited (not images)
 > ```
 > $ docker rm $(docker ps -a -q -f status=exited)
