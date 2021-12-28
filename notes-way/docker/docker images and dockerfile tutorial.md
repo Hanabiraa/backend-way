@@ -151,4 +151,6 @@ $ docker run -p 8888:5000 hanabiraa/catnip
  * Running on http://172.17.0.2:5000/ (Press CTRL+C to quit)
 ```
 
+The command we just ran used port 5000 for the server inside the container and exposed this externally on port 8888. Head over to the URL with port 8888, where your app should be live.
+
 ![](./assets/img/catgif.webp)
