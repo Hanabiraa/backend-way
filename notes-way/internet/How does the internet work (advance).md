@@ -152,4 +152,114 @@ As hinted to earlier in the section about protocol stacks, one may surmise that 
 
 ## Application Protocols: HTTP and the World Wide Web
 
-One of the most commonly used services on the Internet is the **World Wide Web (WWW)**. The application protocol that makes the web work is **Hypertext Transfer Protocol** or **HTTP**. Do not confuse this with the **Hypertext Markup Language (HTML)**. HTML is the language used to write web pages. HTTP is the protocol that web browsers and web servers use to communicate with each other over the Internet. It is an application level protocol because it sits on top of the TCP layer in the protocol stack and is used by specific applications to talk to one another. In this case the applications are web browsers and web servers.
+One of the most commonly used services on the Internet is the **World Wide Web (WWW)**. The application protocol that makes the web work is **Hypertext Transfer Protocol** or **HTTP**. Do not confuse this with the **Hypertext Markup Language (HTML)**. HTML is the language used to write web pages. HTTP is the protocol that web browsers and web servers use to communicate with each other over the Internet. It is an application level protocol because it sits on top of the TCP layer in the protocol stack and is used by specific applications to talk to one another. *In this case the applications are web browsers and web servers*.
+
+HTTP is a connectionless text based protocol. Clients (web browsers) send requests to web servers for web elements such as web pages and images. After the request is serviced by a server, the connection between client and server across the Internet is disconnected. A new connection must be made for each request. Most protocols are connection oriented. This means that the two computers communicating with each other keep the connection open over the Internet. HTTP does not however. Before an HTTP request can be made by a client, a new connection must be made to the server.
+
+
+When you type a URL into a web browser, this is what happens:
+
+1. If the URL contains a domain name, the browser first connects to a domain name server and retrieves the corresponding IP address for the web server.
+2. The web browser connects to the web server and sends an HTTP request (via the protocol stack) for the desired web page.
+3. The web server receives the request and checks for the desired page. If the page exists, the web server sends it. If the server cannot find the requested page, it will send an HTTP 404 error message. (404 means 'Page Not Found' as anyone who has surfed the web probably knows.)
+4. The web browser receives the page back and the connection is closed.
+5. The browser then parses through the page and looks for other page elements it needs to complete the web page. These usually include images, applets, etc.
+6. For each element needed, the browser makes additional connections and HTTP requests to the server for each element.
+7. When the browser has finished loading all images, applets, etc. the page will be completely loaded in the browser window.
+
+## Application Protocols: SMTP and Electronic Mail
+
+Another commonly used Internet service is electronic mail. E-mail uses an application level protocol called Simple Mail Transfer Protocol or SMTP. SMTP is also a text based protocol, but unlike HTTP, SMTP is connection oriented. SMTP is also more complicated than HTTP. There are many more commands and considerations in SMTP than there are in HTTP.
+
+When you open your mail client to read your e-mail, this is what typically happens:
+
+1. The mail client (Netscape Mail, Lotus Notes, Microsoft Outlook, etc.) opens a connection to it's default mail server. The mail server's IP address or domain name is typically setup when the mail client is installed.
+2. The mail server will always transmit the first message to identify itself.
+3. The client will send an SMTP HELO command to which the server will respond with a 250 OK message.
+4. Depending on whether the client is checking mail, sending mail, etc. the appropriate SMTP commands will be sent to the server, which will respond accordingly.
+5. This request/response transaction will continue until the client sends an SMTP QUIT command. The server will then say goodbye and the connection will be closed.
+
+A simple 'conversation' between an SMTP client and SMTP server is shown below. **R**: denotes messages sent by the server (receiver) and **S**: denotes messages sent by the client (sender)
+
+```
+This SMTP example shows mail sent by Smith at host USC-ISIF, to
+Jones, Green, and Brown at host BBN-UNIX.  Here we assume that
+host USC-ISIF contacts host BBN-UNIX directly.  The mail is
+accepted for Jones and Brown.  Green does not have a mailbox at
+host BBN-UNIX.
+
+-------------------------------------------------------------
+R: 220 BBN-UNIX.ARPA Simple Mail Transfer Service Ready
+S: HELO USC-ISIF.ARPA
+R: 250 BBN-UNIX.ARPA
+
+S: MAIL FROM:<Smith@USC-ISIF.ARPA>
+R: 250 OK
+
+S: RCPT TO:<Jones@BBN-UNIX.ARPA>
+R: 250 OK
+
+S: RCPT TO:<Green@BBN-UNIX.ARPA>
+R: 550 No such user here
+
+S: RCPT TO:<Brown@BBN-UNIX.ARPA>
+R: 250 OK
+
+S: DATA
+R: 354 Start mail input; end with <CRLF>.<CRLF>
+S: Blah blah blah...
+S: ...etc. etc. etc.
+S: .
+R: 250 OK
+
+S: QUIT
+R: 221 BBN-UNIX.ARPA Service closing transmission channel
+```
+This SMTP transaction is taken from RFC 821, which specifies SMTP.
+
+## Transmission Control Protocol
+
+Under the application layer in the protocol stack is the TCP layer. When applications open a connection to another computer on the Internet, the messages they send (using a specific application layer protocol) get passed down the stack to the TCP layer. **TCP is responsible for routing application protocols to the correct application on the destination computer**. To accomplish this, port numbers are used. Ports can be thought of as separate channels on each computer. For example, you can surf the web while reading e-mail. This is because these two applications (the web browser and the mail client) used different port numbers. When a packet arrives at a computer and makes its way up the protocol stack, the TCP layer decides which application receives the packet based on a port number.
+
+TCP works like this:
+
+* When the TCP layer receives the application layer protocol data from above, it segments it into manageable 'chunks' and then adds a TCP header with specific TCP information to each 'chunk'. The information contained in the TCP header includes the port number of the application the data needs to be sent to.
+* When the TCP layer receives a packet from the IP layer below it, the TCP layer strips the TCP header data from the packet, does some data reconstruction if necessary, and then sends the data to the correct application using the port number taken from the TCP header.
+
+This is how TCP routes the data moving through the protocol stack to the correct application.
+
+TCP is not a textual protocol. **TCP is a connection-oriented, reliable, byte stream service**. Connection-oriented means that two applications using TCP must first establish a connection before exchanging data. TCP is reliable because for each packet received, an acknowledgement is sent to the sender to confirm the delivery. TCP also includes a checksum in it's header for error-checking the received data. The TCP header looks like this:
+
+![](./assets/img/ruswp_diag7.gif)
+
+**Notice that there is no place for an IP address in the TCP header**. This is because TCP doesn't know anything about IP addresses. TCP's job is to get application level data from application to application reliably. The task of getting data from computer to computer is the job of IP.
+
+**Check It Out - Well Known Internet Port Numbers:**
+
+Listed below are the port numbers for some of the more commonly used Internet services.
+* FTP 20/21
+* Telnet 23
+* SMTP	25
+* HTTP	80
+
+## Internet Protocol
+
+Unlike TCP, **IP is an unreliable, connectionless protocol**. IP doesn't care whether a packet gets to it's destination or not. Nor does IP know about connections and port numbers. **IP's job is too send and route packets to other computers**. IP packets are independent entities and may arrive out of order or not at all. It is TCP's job to make sure packets arrive and are in the correct order. About the only thing IP has in common with TCP is the way it receives data and adds it's own IP header information to the TCP data. The IP header looks like this:
+
+![](./assets/img/ruswp_diag8.gif)
+
+
+## After IP and TCP layers... complete packet
+
+Above we see the IP addresses of the sending and receiving computers in the IP header. Below is what a packet looks like after passing through the application layer, TCP layer, and IP layer. The application layer data is segmented in the TCP layer, the TCP header is added, the packet continues to the IP layer, the IP header is added, and then the packet is transmitted across the Internet.
+
+![](./assets/img/ruswp_diag9.gif)
+
+## Wrap Up
+
+Now you know how the Internet works. But how long will it stay this way? The version of IP currently used on the Internet (version 4) only allows 232 addresses. Eventually there won't be any free IP addresses left. Surprised? Don't worry. IP version 6 is being tested right now on a research backbone by a consortium of research institutions and corporations. And after that? Who knows. The Internet has come a long way since it's inception as a Defense Department research project. No one really knows what the Internet will become. One thing is sure, however. The Internet will unite the world like no other mechanism ever has. The Information Age is in full stride and I am glad to be a part of it.
+
+**Rus Shuler, 1998**
+
+**Updates made 2002**
+
