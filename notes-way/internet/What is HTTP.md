@@ -52,7 +52,7 @@ On the opposite side of the communication channel is the server, which *serves* 
 
 Between the Web browser and the server, numerous computers and machines relay the HTTP messages. Due to the layered structure of the Web stack, most of these operate at the transport, network or physical levels, becoming transparent at the HTTP layer and potentially having a significant impact on performance. Those operating at the application layers are generally called **proxies**. These can be transparent, forwarding on the requests they receive without altering them in any way, or non-transparent, in which case they will change the request in some way before passing it along to the server.
 
- Proxies may perform numerous functions:
+Proxies may perform numerous functions:
 
 * caching (the cache can be public or private, like the browser cache)
   
@@ -158,7 +158,7 @@ Requests consists of the following elements:
 * Optional headers that convey additional information for the servers.
 
 * A body, for some methods like POST, similar to those in responses, which contain the resource sent.
-  
+
 ### Responses
 
 An example response:
@@ -176,6 +176,25 @@ Responses consist of the following elements:
 * HTTP headers, like those for requests.
 
 * Optionally, a body containing the fetched resource.
+
+## What’s an HTTP status code?
+HTTP status codes are 3-digit codes most often used to indicate whether an HTTP request has been successfully completed. Status codes are broken into the following 5 blocks:
+
+1. 1xx Informational
+   
+2. 2xx Success
+
+3. 3xx Redirection
+
+4. 4xx Client Error
+
+5. 5xx Server Error
+   
+The “xx” refers to different numbers between 00 and 99.
+
+Status codes starting with the number ‘2’ indicate a success. For example, after a client requests a web page, the most commonly seen responses have a status code of ‘200 OK’, indicating that the request was properly completed.
+
+If the response starts with a ‘4’ or a ‘5’ that means there was an error and the webpage will not be displayed. A status code that begins with a ‘4’ indicates a client-side error (It’s very common to encounter a ‘404 NOT FOUND’ status code when making a typo in a URL). A status code beginning in ‘5’ means something went wrong on the server side. Status codes can also begin with a ‘1’ or a ‘3’, which indicate an informational response and a redirect, respectively.
 
 ## APIs based on HTTP
 
