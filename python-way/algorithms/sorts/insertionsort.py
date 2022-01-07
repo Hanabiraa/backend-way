@@ -41,12 +41,13 @@ def insertionSort_mutable(lst: list) -> None:
     >>> print(lst)
     [-192, -174, -91, -77, -28, -18, -2, 22, 114, 199]
     """
-    for i in range(1, len(lst)):
-        j = i - 1
-        while j >= 0 and lst[j] > lst[i]:
-            lst[i], lst[j] = lst[j], lst[i]
-            i -= 1
+    for step in range(1, len(lst)):
+        val = lst[step]
+        j = step - 1
+        while j >= 0 and val < lst[j]:
+            lst[j + 1] = lst[j]
             j -= 1
+        lst[j + 1] = val
 
 
 if __name__ == '__main__':
