@@ -2,7 +2,7 @@ import random
 from copy import deepcopy
 
 
-def quicksort_simply(lst: list) -> list:
+def quickSort_simply(lst: list) -> list:
     """
     ! WARNING: likely stack recursion overflow  
     ! WARNING: max recursion - O(N) 
@@ -11,7 +11,7 @@ def quicksort_simply(lst: list) -> list:
 
     simple quicksort implementation, average speed O(Nlog(N))
     :param lst: list - list to sort
-    :return: sorted list in ascending
+    :return: list - sorted list in ascending
 
     i.e:
     >>> simply_quicksort([10, 9, 8, 7, 6, 5, 4, 3, 2, 1])
@@ -27,10 +27,10 @@ def quicksort_simply(lst: list) -> list:
 
     for x in lst:
         (less if x < pivot else more).append(x)
-    return quicksort_simply(less) + [pivot] + quicksort_simply(more)
+    return quickSort_simply(less) + [pivot] + quickSort_simply(more)
 
 
-def quicksort_Lomuto(lst: list, low: int, high: int) -> None:
+def quickSort_Lomuto(lst: list, low: int, high: int) -> None:
     """
     quicksort implementation with Lomuto partition, change list in place
     average speed O(Nlog(N))
@@ -38,7 +38,7 @@ def quicksort_Lomuto(lst: list, low: int, high: int) -> None:
     :param lst: list - list to sort
     :param low: first index of list
     :param high: last index of list
-    :return: none
+    :return: None
 
     i.e:
     >>> lst = [-2, -91, -192, 22, 114, -28, -77, -18, -174, 199]
@@ -47,12 +47,12 @@ def quicksort_Lomuto(lst: list, low: int, high: int) -> None:
     [-192, -174, -91, -77, -28, -18, -2, 22, 114, 199]
     """
     if low < high and low >= 0:
-        idx: int = _quicksort_Lomuto_partition(lst, low, high)
-        quicksort_Lomuto(lst, low, idx-1)
-        quicksort_Lomuto(lst, idx+1, high)
+        idx: int = _quickSort_Lomuto_partition(lst, low, high)
+        quickSort_Lomuto(lst, low, idx-1)
+        quickSort_Lomuto(lst, idx+1, high)
 
 
-def _quicksort_Lomuto_partition(lst: list, low: int, high: int) -> int:
+def _quickSort_Lomuto_partition(lst: list, low: int, high: int) -> int:
     """
     Lomuto partition func for quicksort algorithm
 
@@ -74,7 +74,7 @@ def _quicksort_Lomuto_partition(lst: list, low: int, high: int) -> int:
     return i
 
 
-def quicksort_Hoare(lst: list, low: int, high: int) -> None:
+def quickSort_Hoare(lst: list, low: int, high: int) -> None:
     """
     quicksort implementation with Hoare partition, change list in place
     average speed O(Nlog(N))
@@ -82,7 +82,7 @@ def quicksort_Hoare(lst: list, low: int, high: int) -> None:
     :param lst: list - list to sort
     :param low: first index of list
     :param high: last index of list
-    :return: none
+    :return: None
 
     i.e:
     >>> lst = [-2, -91, -192, 22, 114, -28, -77, -18, -174, 199]
@@ -91,12 +91,12 @@ def quicksort_Hoare(lst: list, low: int, high: int) -> None:
     [-192, -174, -91, -77, -28, -18, -2, 22, 114, 199]
     """
     if low >= 0 and high >= 0 and low < high:
-        idx: int = _quicksort_Hoare_partition(lst, low, high)
-        quicksort_Lomuto(lst, low, idx)
-        quicksort_Lomuto(lst, idx+1, high)
+        idx: int = _quickSort_Hoare_partition(lst, low, high)
+        quickSort_Lomuto(lst, low, idx)
+        quickSort_Lomuto(lst, idx+1, high)
 
 
-def _quicksort_Hoare_partition(lst: list, low: int, high: int) -> int:
+def _quickSort_Hoare_partition(lst: list, low: int, high: int) -> int:
     """
     Hoare partition func for quicksort algorithm
 
@@ -129,13 +129,13 @@ if __name__ == '__main__':
         all_cases.append([random.randint(-200, 200) for _ in range(2)])
         all_cases_sort = [sorted(lst) for lst in all_cases]
 
-    # special loop, because return list
-    print(quicksort_simply.__name__)
+    # sorts, return list
+    print(quickSort_simply.__name__)
     for case, check_case in zip(deepcopy(all_cases), all_cases_sort):
-        print(f"{quicksort_simply(case) == check_case}")
+        print(f"{quickSort_simply(case) == check_case}")
 
-    # none return, change list in-place
-    func_lst = [quicksort_Lomuto, quicksort_Hoare]
+    # sorts, none return, change list in-place
+    func_lst = [quickSort_Lomuto, quickSort_Hoare]
     for func in func_lst:
         print(func.__name__)
         for case, check_case in zip(deepcopy(all_cases), all_cases_sort):
