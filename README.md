@@ -7,7 +7,7 @@
 ***
 
 <!-- Zero width character is used to put extra blank lines before and after code -->
-<h4>
+<h3>
 
 ```python
 ​
@@ -32,7 +32,7 @@ stack = FutureStack()
 print(stack.jsonify())
 ​
 ```
-</h4>
+</h3>
 
 ***
 
