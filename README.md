@@ -75,7 +75,7 @@ print(stack.jsonify())
 | Title | Author | Status |
 | --- | :---: | :---: |
 | Грокаем алгоритмы | Бхаргава Адитья | To Do |
-| Изучаем Python. Том 2 | Лутц Марко | To Do |
+| Алгоритмы. Руководство по разработке | Стивен Скиена | To Do |
 
 > ### SQL
 #### Courses (Coming soon)
