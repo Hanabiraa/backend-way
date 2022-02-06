@@ -50,7 +50,7 @@ print(stack.jsonify())
 | URL | Title | Status |
 | :---: | --- | :---: |
 | [Stepic](https://stepik.org/course/67/promo) |Программирование на Python| **Completed** |
-| [Stepic](https://stepik.org/course/512/promo) | Python: основы и применение | To Do |
+| [Stepic](https://stepik.org/course/512/promo) | Python: основы и применение | **Completed** |
 | [Coursera](https://www.coursera.org/learn/mathematics-and-python)|Математика и Python для анализа данных| **Completed** |
 | [Kaggle](https://www.kaggle.com/learn/python) | Python | **Completed** |
 | [Kaggle](https://www.kaggle.com/learn/pandas) | Pandas | **Completed** |
