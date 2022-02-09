@@ -3,3 +3,4 @@
 2) [Understanding the Role of Rendering Engine in Browsers. BrowserStack](https://www.browserstack.com/guide/browser-rendering-engine)
 3) [Populating the page: how browsers work. MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/Performance/How_browsers_work)
  
+ 

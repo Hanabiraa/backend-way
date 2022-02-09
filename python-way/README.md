@@ -1,6 +1,8 @@
 ## Table of contents 📓
 
-> algorithms 📈 - implementation of various algorithms. (for example, search, sorting, etc.)
+> algorithms 📈 - implementation of various algorithms. (i.e. search, sorting, etc.)
+
+> data structures -  implementation of various data structures. (i.e. stack, queue, etc.)
 
 > sandbox 🏜 - for puzzles and checking various syntax
 
