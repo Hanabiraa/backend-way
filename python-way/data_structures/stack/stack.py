@@ -3,6 +3,17 @@ class NoElementInStack(Exception):
 
 
 class Stack():
+    """
+    My stack implementation
+
+    Example:
+    >>> stack = Stack()
+    >>> stack.push(1)
+    >>> len(stack)
+    1
+    >>> stack.pop()
+    1
+    """
     def __init__(self) -> None:
         self.list = []
         self.len = 0
