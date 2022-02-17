@@ -1,5 +1,3 @@
-from platform import node
-from turtle import circle
 from typing import Any
 
 
@@ -85,6 +83,48 @@ class DoubleLinkedList():
         new_node.prev = tmp
         tmp.next = new_node
 
+    def remove_left(self) -> Any:
+        if not self.head:
+            return None
+
+        del_node = self.head
+        if not self.head.next:
+            self.head = None
+        else:
+            self.head = self.head.next
+            self.head.prev = None
+        del_node.next = None
+        del_node.prev = None
+        return del_node.data
+
+    def remove_right(self) -> Any:
+        if not self.head or not self.head.next:
+            return self.remove_left
+
+        del_node = self.head
+            
+        while del_node.next:
+            del_node = del_node.next
+        del_node.prev.next = None
+        del_node.prev = None
+        del_node.next = None
+        return del_node.data
+
+    def remove_after(self, prev_node: _Node) -> Any:
+        if not prev_node:
+            return self.remove_left()
+        
+        if not prev_node.next:
+            raise ValueError("No delete after")
+        
+        del_node = prev_node.next
+        prev_node.next = del_node.next
+        if after_node := del_node.next:
+            after_node.prev = prev_node
+        del_node.prev = None
+        del_node.next = None
+        return del_node.data
+
     def __str__(self) -> str:
         tmp = self.head
         template = "[{}] <-> "
@@ -107,6 +147,20 @@ if __name__ == "__main__":
     l.insert_after(1, 250)
     l.insert_after(10, -500)
     l.insert_after(10, -1000)
+    print(l)
+    l.reverse()
+    print(l)
+
+    for _ in range(5):
+        print(f"del left: {l.remove_left()}")
+    for _ in range(3):
+        print(f"del right: {l.remove_right()}")
+    print(l)
+    l.reverse()
+    print(l)
+    del_ = l.head.next.next
+    print(f"del after {del_.data}: ", l.remove_after(del_))
+    print(f"del after {None}: ", l.remove_after(None))
     print(l)
     l.reverse()
     print(l)
