@@ -38,6 +38,9 @@ class CircularSingleLinkedList():
             tmp = tmp.next
         self.last = self.last.next
         tmp.next = self.last
+
+        del_node.next = None
+        del_node.prev = None
         return del_node.data
 
     def __str__(self) -> str:
