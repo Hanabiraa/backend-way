@@ -138,6 +138,33 @@ def bin_tree_is_perfect(root: Node) -> bool:
 
     return check(root, max_depth, curr_depth)
 
+def bin_tree_is_complete(root: Node) -> bool:
+    """
+    checks if the tree is complete
+
+    Use index property.
+    
+    """
+    max_depth = curr_depth = 0
+    tmp_root = root
+    while tmp_root.left:
+        max_depth += 1
+        tmp_root = tmp_root.left
+
+    def check(root, max_depth: int, curr_depth: int) -> bool:
+        if root is None:
+            return True
+
+        if root.left is None and root.right is None:
+            return max_depth == curr_depth
+
+        if root.left is None or root.right is None:
+            return False
+
+        return check(root.left, max_depth, curr_depth+1) and check(root.right, max_depth, curr_depth+1)
+
+    return check(root, max_depth, curr_depth)
+
 def main():
     """ 
     Constructed binary tree is
