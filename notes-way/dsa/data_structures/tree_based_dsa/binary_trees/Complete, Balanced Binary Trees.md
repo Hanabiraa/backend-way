@@ -37,6 +37,14 @@ A complete binary tree is just like a full binary tree, but with two major diffe
 
 ![](./../../assets/img/complete-binary-tree-creation-3.webp)
 
+###  Relationship between array indexes and tree element
+
+A complete binary tree has an interesting property that we can use to find the children and parents of any node.
+
+If the index of any element in the array is `i`, the element in the index `2i+1` will become the left child and element in `2i+2` index will become the right child. Also, the parent of any element at index `i` is given by the lower bound of `(i-1)/2`.
+
+Let's test it out,
+
 ## Balanced Binary Tree
 
 A balanced binary tree, **also referred to as a height-balanced binary tree**, is defined as a binary tree in which the height of the left and right subtree of any node differ by not more than 1.
