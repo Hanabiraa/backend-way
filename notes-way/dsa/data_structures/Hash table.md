@@ -22,7 +22,7 @@ Let:
   
 Then hash func `h(k)` will give us a new index to store the element linked with `k`
 
-![](./../assets/img/Hash-2_0.webp)
+![](./assets/img/Hash-2_0.webp)
 
 ## Hash Collision
 
@@ -39,7 +39,7 @@ We can resolve the hash collision using one of the following techniques.
 
 If `j` is the slot for multiple elements, it contains a pointer to the head of the list of elements. If no element is present, `j` contains `NIL`.
 
-![](./../assets/img/Hash-3_1.webp)
+![](./assets/img/Hash-3_1.webp)
 
 ### Benefits of chained lists
 

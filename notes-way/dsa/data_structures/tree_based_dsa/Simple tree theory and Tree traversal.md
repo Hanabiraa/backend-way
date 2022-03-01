@@ -8,7 +8,7 @@ This article cover:
 
 A tree is a nonlinear hierarchical data structure that consists of nodes connected by edges.
 
-![](./../../assets/img/tree_0.webp)
+![](./assets/img/tree_0.webp)
 
 ### Why tree ds?
 
@@ -29,7 +29,7 @@ Different tree data structures allow quicker and easier access to the data as it
    
     It is the link between any two nodes.
 
-    ![](./../../assets/img/nodes-edges_0.webp)
+    ![](./assets/img/nodes-edges_0.webp)
 
 3. **Root**
    
@@ -47,7 +47,7 @@ Different tree data structures allow quicker and easier access to the data as it
     
     The height of a Tree is the height of the root node or the depth of the deepest node.
 
-    ![](./../../assets/img/height-depth_1.webp)
+    ![](./assets/img/height-depth_1.webp)
 
 7. **Degree of a Node**
 
@@ -57,7 +57,7 @@ Different tree data structures allow quicker and easier access to the data as it
 
     A collection of disjoint trees is called a forest.
 
-    ![](./../../assets/img/forest_0.webp)
+    ![](./assets/img/forest_0.webp)
 
     You can create a forest by cutting the root of a tree.
 
@@ -75,7 +75,7 @@ Traversing a tree means visiting every node in the tree. You might, for instance
 
 Linear data structures like arrays, stacks, queues, and linked list have only one way to read the data. But a hierarchical data structure like a tree can be traversed in different ways.
 
-![](./../../assets/img/tree_traversal_tree-traversal.webp)
+![](./assets/img/tree_traversal_tree-traversal.webp)
 
 Let's think about how we can read the elements of the tree in the image shown above.
 
@@ -110,7 +110,7 @@ According to this structure, every tree is a combination of
 * A node carrying data
 * Two subtrees
 
-![](./../../assets/img/tree_traversal_sub-tree-concept.webp)
+![](./assets/img/tree_traversal_sub-tree-concept.webp)
 
 Remember that our goal is to visit each node, so we need to visit all the nodes in the subtree, visit the root node and visit all the nodes in the right subtree as well.
 
@@ -156,13 +156,13 @@ display(root->data)
 
 Let's visualize in-order traversal. We start from the root node.
 
-![](./../../assets/img/tree_traversal_inorder-traversal.webp)
+![](./assets/img/tree_traversal_inorder-traversal.webp)
 
 We traverse the left subtree first. We also need to remember to visit the root node and the right subtree when this tree is done.
 
 Let's put all this in a stack so that we remember.
 
-![](./../../assets/img/tree_traversal_inorder-stack_0.webp)
+![](./assets/img/tree_traversal_inorder-stack_0.webp)
 
 Now we traverse to the subtree pointed on the TOP of the stack.
 
@@ -172,7 +172,7 @@ Again, we follow the same rule of inorder
 Left subtree -> root -> right subtree
 ```
 
-![](./../../assets/img/tree_traversal_inorder-stack_1.webp)
+![](./assets/img/tree_traversal_inorder-stack_1.webp)
 
 Since the node "5" doesn't have any subtrees, we print it directly. After that we print its parent "12" and then the right child "6".
 

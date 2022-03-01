@@ -10,7 +10,7 @@ A full Binary tree is a special type of binary tree in which every parent node/i
 
 > It is also known as a **proper binary tree**.
 
-![](./../../assets/img/full-binary-tree_0.webp)
+![](./../assets/img/full-binary-tree_0.webp)
 
 ### Full Binary Tree Theorems
 
@@ -33,7 +33,7 @@ Let, i = the number of internal nodes
 
 A perfect binary tree is a type of binary tree in which every internal node has exactly two child nodes and all the leaf nodes are at the same level.
 
-![](./../../assets/img/perfect-binary-tree_0.webp)
+![](./../assets/img/perfect-binary-tree_0.webp)
 
 All the internal nodes have a degree of 2.
 
@@ -42,7 +42,7 @@ Recursively, a perfect binary tree can be defined as:
 1. If a single node has no children, it is a perfect binary tree of height `h = 0`,
 2. If a node has `h > 0`, it is a perfect binary tree if both of its subtrees are of height `h - 1` and are non-overlapping.
 
-![](./../../assets/img/perfect-binary-tree-rec.webp)
+![](./../assets/img/perfect-binary-tree-rec.webp)
 
 ### Perfect Binary Tree Theorems
 

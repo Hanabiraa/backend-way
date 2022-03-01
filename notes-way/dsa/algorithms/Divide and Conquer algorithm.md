@@ -24,19 +24,19 @@ Example: we will sort an array using the divide and *conquer* approach (ie. merg
 
 1. Let the given array be:
 
-![](../assets/img/divide-and-conquer-0.webp)
+![](./assets/img/divide-and-conquer-0.webp)
 
 2. **Divide** the array into two halves.
 
-![](../assets/img/divide-and-conquer-1.webp)
+![](./assets/img/divide-and-conquer-1.webp)
 
 Again, divide each subpart recursively into two halves until you get individual elements.
 
-![](../assets/img/divide-and-conquer-2.webp)
+![](./assets/img/divide-and-conquer-2.webp)
 
 3. Now, combine the individual elements in a sorted manner. Here, **conquer** and **combine** steps go side by side.
 
-![](../assets/img/divide-and-conquer-3.webp)
+![](./assets/img/divide-and-conquer-3.webp)
 
 ## Time Complexity
  

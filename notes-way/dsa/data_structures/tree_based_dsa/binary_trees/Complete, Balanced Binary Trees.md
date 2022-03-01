@@ -13,29 +13,29 @@ A complete binary tree is just like a full binary tree, but with two major diffe
 1. All the leaf elements must lean towards the left.
 2. The last leaf element might not have a right sibling i.e. a complete binary tree doesn't have to be a full binary tree.
 
-![](./../../assets/img/comparison-1_0.webp)
+![](./../assets/img/comparison-1_0.webp)
 
-![](./../../assets/img/comparison-2_0.webp)
+![](./../assets/img/comparison-2_0.webp)
 
-![](./../../assets/img/comparison-3_0.webp)
+![](./../assets/img/comparison-3_0.webp)
 
-![](./../../assets/img/comparison-4.webp)
+![](./../assets/img/comparison-4.webp)
 
 ### How a Complete Binary Tree is Created?
 
 1. Select the first element of the list to be the root node. (no. of elements on level-I: 1)
 
-![](./../../assets/img/complete-binary-tree-creation-1.webp)
+![](./../assets/img/complete-binary-tree-creation-1.webp)
 
 2. Put the second element as a left child of the root node and the third element as the right child. (no. of elements on level-II: 2)
 
-![](./../../assets/img/complete-binary-tree-creation-2.webp)
+![](./../assets/img/complete-binary-tree-creation-2.webp)
 
 3. Put the next two elements as children of the left node of the second level. Again, put the next two elements as children of the right node of the second level (no. of elements on level-III: 4) elements).
 
 4. Keep repeating until you reach the last element.
 
-![](./../../assets/img/complete-binary-tree-creation-3.webp)
+![](./../assets/img/complete-binary-tree-creation-3.webp)
 
 ###  Relationship between array indexes and tree element
 
@@ -54,8 +54,8 @@ A balanced binary tree, **also referred to as a height-balanced binary tree**, i
 
 **balanced**
 
-![](./../../assets/img/height-balanced_1.webp)
+![](./../assets/img/height-balanced_1.webp)
 
 **unbalanced**
 
-![](./../../assets/img/unbalanced-binary-tree.webp)
+![](./../assets/img/unbalanced-binary-tree.webp)

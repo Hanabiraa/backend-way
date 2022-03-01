@@ -11,7 +11,7 @@ This article cover:
 
 A linked list is a linear data structure that includes a series of connected nodes. Here, each node stores the data and the address of the next node. For example,
 
-![](./../assets/img/linked-list-concept.webp)
+![](./assets/img/linked-list-concept.webp)
 
 You have to start somewhere, so we give the address of the first node a special name called `HEAD`. Also, the last node in the linked list can be identified because its next portion points to `NULL`.
 
@@ -249,7 +249,7 @@ struct node {
 Each struct node has a data item, a pointer to the previous struct node, and a pointer to the next struct node.
 
 Double linked list view:
-![](../assets/img/doubly-linked-list-created.webp)
+![](./assets/img/doubly-linked-list-created.webp)
 
 ### Doubly Linked List Complexity
 
@@ -295,14 +295,14 @@ There are basically two types of circular linked list:
 
 Here, the address of the last node consists of the address of the first node.
 
-![](./../assets/img/circular-signle-linked-list.webp)
+![](./assets/img/circular-signle-linked-list.webp)
 
 
 2. Circular Doubly Linked List
 
 Here, in addition to the last node storing the address of the first node, the first node will also store the address of the last node.
 
-![](../assets/img/circular-doubly-linked-list.webp)
+![](./assets/img/circular-doubly-linked-list.webp)
 
 
 > Note: We will be using the singly circular linked list to represent the working of circular linked list.
