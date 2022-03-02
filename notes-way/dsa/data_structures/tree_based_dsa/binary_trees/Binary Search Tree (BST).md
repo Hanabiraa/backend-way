@@ -159,6 +159,12 @@ In the third case, the node to be deleted has two children. In such a case follo
 
 ![](./../assets/img/bst-delete-8.webp)
 
+### **Find the node with minimum/maximum value in a Binary Search Tree**
+
+    This is quite simple. Just traverse the node from root to left recursively until left is NULL. The node whose left is NULL is the node with minimum value. 
+
+    For maximum value going throw right nodes
+    
 ## **Some Interesting Facts**
 
 1. **Inorder traversal of BST always produces sorted output**.
