@@ -159,6 +159,12 @@ In the third case, the node to be deleted has two children. In such a case follo
 
 ![](./../assets/img/bst-delete-8.webp)
 
+## **Some Interesting Facts**
+
+1. **Inorder traversal of BST always produces sorted output**.
+
+2. We can construct a BST with only Preorder or Postorder or Level Order traversal. Note that we can always get inorder traversal by sorting the only given traversal.
+
 ## Binary Search Tree Complexities
 
 **Time Complexity**
