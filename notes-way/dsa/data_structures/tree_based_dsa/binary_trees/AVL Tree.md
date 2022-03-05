@@ -14,7 +14,11 @@ AVL tree got its name after its inventor Georgy Adelson-Velsky and Landis.
 > **Why AVL Trees?**
    
 >  Most of the BST operations (e.g., search, max, min, insert, delete.. etc) take O(h) time where h is the height of the BST. The cost of these operations may become O(n) for a skewed Binary tree. If we make sure that height of the tree remains O(Logn) after every insertion and deletion, then we can guarantee an upper bound of O(Logn) for all these operations. The height of an AVL tree is always O(Logn) where n is the number of nodes in the tree. 
-> 
+
+## AVL tree or Red-black Tree?
+
+The AVL tree and other self-balancing search trees like Red Black are useful to get all basic operations done in O(log n) time. The AVL trees are more balanced compared to Red-Black Trees, but they may cause more rotations during insertion and deletion. So if your application involves many frequent insertions and deletions, then Red Black trees should be preferred. And if the insertions and deletions are less frequent and search is the more frequent operation, then AVL tree should be preferred over Red Black Tree.
+
 ## Balance factor
 
 Balance factor of a node in an AVL tree is the difference between the height of the left subtree and that of the right subtree of that node.
@@ -194,3 +198,8 @@ A node is always deleted as a leaf node. After deleting a node, the balance fact
 5. The final tree is:
 
 ![](./../assets/img/avl-tree-final-tree-1_0_2.webp)
+
+
+## Time Complexity
+
+The rotation operations (left and right rotate) take constant time as only a few pointers are being changed there. Updating the height and getting the balance factor also takes constant time. So the time complexity of AVL insert remains same as BST insert which is O(h) where h is the height of the tree. Since AVL tree is balanced, the height is O(Logn). So time complexity of AVL insert is O(Logn).
