@@ -16,9 +16,8 @@ def BenchmarkFunc(count=100):
                 f(*args, **kwargs)
                 time_per_call.append(time.perf_counter() - t_start)
             print(f'Average time: {sum(time_per_call) / len(time_per_call)}')
-
+            return f(*args, **kwargs)
         return _wrapper
-
     return _decorator
 
 
@@ -37,7 +36,7 @@ class BenchmarkClass():
                 f(*args, **kwargs)
                 time_per_call.append(time.perf_counter() - t_start)
             print(f'Average time: {sum(time_per_call) / len(time_per_call)}')
-
+            return f(*args, **kwargs)
         return _wrapper
 
 
