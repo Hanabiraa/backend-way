@@ -63,7 +63,7 @@ print(stack.jsonify())
 | Title | Author | Status |
 | --- | :---: | :---: |
 | Изучаем Python. Том 1 | Лутц Марк| **Completed** |
-| Изучаем Python. Том 2 | Лутц Марк | To Do |
+| Изучаем Python. Том 2 | Лутц Марк| **Completed** |
 
 
 > ### Algorithms & Data Structures
