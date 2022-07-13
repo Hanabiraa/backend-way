@@ -4,6 +4,8 @@
 
 > data structures -  implementation of various data structures. (i.e. stack, queue, etc.)
 
-> sandbox 🏜 - for puzzles and checking various syntax
+> syntax research 🏜 - for checking various syntax
+
+> tasks - for interesting puzzles
 
 > tests ✅ - for scripts for testing algorithms and data structures

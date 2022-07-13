@@ -41,6 +41,8 @@ print(stack.jsonify())
 
 > python-way - to study algorithms and data structures, as well as tasks and interesting features of syntax
 
+> frontend-way - to study on beginning level html/css, js and other frontend  frameworks
+
 > Certificates - for certificates from various courses / hackathons and others
 
 ***
