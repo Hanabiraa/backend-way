@@ -129,3 +129,6 @@ dmypy.json
 .pyre/
 .idea
 frontend-way/html_css/.DS_Store
+.DS_Store
+*/.DS_Store
+*.DS_Store
