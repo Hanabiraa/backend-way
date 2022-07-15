@@ -1,0 +1,60 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1, p {
+    background-color: #DDE0E3;    /* Light gray */
+  }
+  
+em, strong {
+background-color: #B2D6FF;    /* Light blue */
+}
+
+em, strong {
+    background-color: #B2D6FF;
+    display: inline;  /* default inline */
+}
+
+h1 {
+    padding: 50px;
+}
+
+p {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* Some special syntax 
+
+p {
+    padding: 20px 10px;  -- Vertical  Horizontal --
+} 
+
+p {
+  padding: 20px 0 20px 10px;  -- Top  Right  Bottom  Left --
+}
+*/
+
+h1 {
+    padding: 50px;
+    border-bottom: 1px solid #5D6063;
+}
+
+div {
+    color: #FFF;
+    background-color: #5995DA;
+    font-weight: bold;
+    padding: 20px;
+    text-align: center;
+    border: 2px solid #5D6063;
+    border-radius: 5px;
+    
+    width: 200px;
+    box-sizing: border-box;  /* Add this */
+    margin: 20px auto; /* Vertical  Horizontal */
+
+}

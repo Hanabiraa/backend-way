@@ -80,3 +80,143 @@ This is ordered from least to most precedence, which means styles defined in eac
 **The order** of the `<link/>` elements **matters**. Stylesheets that come later will override styles in earlier ones. 
 
 > Typically, you’ll put your “base” or “default” styles in a global stylesheet (styles.css) and supplement them with section-specific stylesheets. **This allows you to organize CSS rules into manageable files while avoiding the perils of page-specific and inline styles**.
+
+### **Block elements and inline elements**
+
+Each HTML element rendered on the screen is a box, and they come in two flavors: “block” boxes and “inline“ boxes.
+![](./assets/inline-vs-block-boxes-f3e662.png)
+
+* **Block boxes always appear below the previous block element**. This is the “natural” or “static” flow of an HTML document when it gets rendered by a web browser.
+
+* **The width of block boxes is set automatically based on the width of its parent container**. In this case, our blocks are always the width of the browser window.
+
+* **The default height of block boxes is based on the content it contains.** When you narrow the browser window, the `<h1>` gets split over two lines, and its height adjusts accordingly.
+
+* **Inline boxes don’t affect vertical spacing**. They’re not for determining layout—they’re for styling stuff inside of a block.
+
+* **The width of inline boxes is based on the content it contains**, not the width of the parent element.
+
+### **Changing box behavior**
+
+We can override the default box type of HTML elements with the CSS `display` property. For example, if we wanted to make our `<em>` and `<strong>` elements blocks instead of inline elements, we could update our rule in box-styles.css like so:
+
+```
+em, strong {
+  background-color: #B2D6FF;
+  display: block;  /* default inline */
+}
+```
+
+### **Content, padding, border, and margin**
+
+* **Content** – The text, image, or other media content in the element.
+* **Padding** – The space between the box’s content and its border.
+* **Border** – The line between the box’s padding and margin.
+* **Margin** – The space between the box and surrounding boxes.
+
+![](./assets/css-box-model-73a525.png)
+
+
+### **Border like debugging tool**
+
+Borders are common design elements, but they’re also invaluable for debugging. When you’re not sure how a box is being rendered, add a `border: 1px solid red;` declaration to it.
+
+### **Choice between margin and padding**
+
+Margins and padding can accomplish the same thing in a lot of situations, making it difficult to determine which one is the “right” choice. The most common reasons why you would pick one over the other are:
+
+* The padding of a box has a background, while margins are always transparent.
+* Padding is included in the click area of an element, while margins aren’t.
+* Margins collapse vertically, while padding doesn’t (we’ll discuss this more in the next section).
+
+### **vertical margin collapse**
+
+Another quirk of the CSS box model is the “vertical margin collapse”. When you have two boxes with vertical margins sitting right next to each other, they will collapse. Instead of adding the margins together like you might expect, only the biggest one is displayed.
+
+For example, let’s add a top margin of 25 pixels to our <p> element:
+
+```
+p {
+  padding: 20px 0 20px 10px;
+
+  margin-top: 25px;
+  margin-bottom: 50px;
+}
+```
+
+
+Each paragraph should have 50 pixels on the bottom, and 25 pixels on the top. That’s 75 pixels between our <p> elements, right? Wrong! There’s still only going to be 50px between them because the smaller top margin collapses into the bigger bottom one.
+
+This behavior can be very useful when you’re working with a lot of different kinds of elements, and you want to define their layout as the minimum space between other elements.
+
+![](./assets/vertical-margin-collapse-bba78e.png)
+
+
+### **preventing margin collapse**
+
+It can also be really annoying. Sometimes you do want to prevent the margins from collapsing. All you need to do is put another invisible element in between them:
+
+```
+<p>Paragraphs are blocks, too. <em>However</em>, &lt;em&gt; and &lt;strong&gt;
+elements are not. They are <strong>inline</strong> elements.</p>
+
+<div style='padding-top: 1px'></div>  <!-- Add this -->
+
+<p>Block elements define the flow of the HTML document, while inline elements
+do not.</p>
+```
+
+The important part here is that only consecutive elements can collapse into each other. Putting an element with non-zero height (hence the padding-top) between our paragraphs forces them to display both the 25px top margin and the 50px bottom margin.
+
+> Remember that padding doesn’t ever collapse, so an alternative solution would be to use padding to space out our paragraphs instead of the margin property. However, this only works if you’re not using the padding for anything else (at the moment, we are, so let’s stick to the <div> option).
+
+> A third option to avoid margin collapse is to stick to a bottom-only or top-only margin convention. For instance, if all your elements only define a bottom margin, there’s no potential for them to collapse.
+
+> *Finally, the `flexbox layout` scheme doesn’t have collapsing margins, so this isn’t really even an issue for modern websites.*
+
+### **`<div>` and `<span>`**
+
+**Both are “container” elements that don’t have any affect on the semantic structure of an HTML document**. They do, however, provide a hook for adding CSS styles to arbitrary sections of a web page.
+
+*The only real difference between a `<div>` and a `<span>` is that the former is for block-level content while the latter is meant for inline content.*
+
+### ** content boxes and border boxes **
+
+The width and height properties only define the size of a box’s content. Its padding and border are both added on top of whatever explicit dimensions you set. This explains why you’ll get an image that’s 244 pixels wide when you take a screenshot of our button, despite the fact that it has a `width: 200px` declaration attached to it.
+
+![](./assets/box-sizing-content-box-09f48a.png)
+
+Fortunately, CSS lets you change how the width of a box is calculated via the `box-sizing` property. By default, it has a value of `content-box`, which leads to the behavior described above. Let’s see what happens when we change it to `border-box`
+
+This forces the actual width of the box to be 200px—including padding and borders. Of course, this means that the content width is now determined automatically:
+
+![](./assets/box-sizing-border-box-ace2be.png)
+
+### **aligning boxes**
+
+There are three methods for horizontally aligning block-level elements: 
+1) `auto-margins` for center alignment
+   > When you set the left and right margin of a block-level element to auto, it will center the block in its parent element.
+
+   ```
+    margin: 20px auto; /* Vertical  Horizontal */
+   ```
+
+2) `floats` for left/right alignment
+3) `flexbox` for complete control over alignment. 
+  
+Yes, unfortunately block-level alignment is totally unrelated to the text-align property.
+
+### **resetting styles**
+
+Different browsers have different default styles for all of their HTML elements, making it difficult to create consistent stylesheets.
+
+It’s usually a good idea to override default styles to a predictable value using the “universal” CSS selector (*).:
+
+```
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+```
