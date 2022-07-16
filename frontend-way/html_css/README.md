@@ -221,3 +221,23 @@ It’s usually a good idea to override default styles to a predictable value usi
 }
 ```
 
+### **Class styles**
+
+When there’s two conflicting properties in a CSS file, the last one is always the one that gets applied.
+
+so...if in css file first rule is `.button` and second is `.call-to-action`,
+then it is the last property that will override the previous one, because it is written last (provided that both of these rules are applied to the element)
+
+In other words, the following elements are effectively equivalent:
+```
+<div class='button call-to-action'>Button Two</div>
+<div class='call-to-action button'>Button Two</div>
+```
+
+The specificity of selectors we’ve seen in this chapter are show below, from greatest to least:
+
+* `#button-2`
+* `.button:link`
+* `a:link` and `.synopsis em` (they equals)
+* `.button`
+* `a`
