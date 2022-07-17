@@ -241,3 +241,10 @@ The specificity of selectors we’ve seen in this chapter are show below, from g
 * `a:link` and `.synopsis em` (they equals)
 * `.button`
 * `a`
+
+### **How to incorporate floats into the height of their container?**
+
+When you have an extra unfloated HTML element at the bottom of a container div, use the `clear` css option.
+Otherwise, add an `overflow: hidden` declaration to the container element.
+
+![](./assets/methods-for-clearing-floats-6429d9.png)
