@@ -248,3 +248,15 @@ When you have an extra unfloated HTML element at the bottom of a container div, 
 Otherwise, add an `overflow: hidden` declaration to the container element.
 
 ![](./assets/methods-for-clearing-floats-6429d9.png)
+
+
+### **Ave flexbox!**
+
+* Use `display: flex;` to create a flex container.
+* Use `justify-content` to define the horizontal alignment of items.
+* Use `align-items` to define the vertical alignment of items.
+* Use `flex-direction` if you need columns instead of rows.
+* Use the `row-reverse` or `column-reverse` values to flip item order.
+* Use `order` to customize the order of individual elements.
+* Use `align-self` to vertically align individual items.
+* Use `flex` to create flexible boxes that can stretch and shrink.
