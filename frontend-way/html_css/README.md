@@ -290,3 +290,23 @@ The z-index property lets you control the depth of elements on the page.
 If you think of your screen as 3D space, negative z-index values go farther into the page, and positive ones come out of the page.
 
 ![](./assets/css-z-index-c87ef0.png)
+
+### **media queries**
+
+Media queries always begin with the `@media “at-rule”` followed by some kind of conditional statement, and then some curly braces. Inside the curly braces, you put a bunch of ordinary CSS rules. The browser only pays attention to those rules if the condition is met.
+
+![](./assets/media-query-terms-137d06.png)
+
+### **Disabling Viewport Zooming**
+
+Before responsive design was a thing, mobile devices only had a desktop layout to work with. To cope with this, they zoomed out to fit the entire desktop layout into the width of the screen, letting the user interact with it by zooming in when necessary.
+
+![](./assets/html-viewport-zooming-5c4be6.png)
+
+**This default behavior** will prevent mobile devices from using our mobile layout, which **is obviously very terrible**.
+
+this is a critical element that should be on every single web page you create:
+
+```
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+```
