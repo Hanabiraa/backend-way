@@ -310,3 +310,89 @@ this is a critical element that should be on every single web page you create:
 ```
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
 ```
+
+### **Adaptive images and Retina problem**
+
+![](./assets/responsive-images-overview-890631.png)
+
+The problem is, images have inherent dimensions. We can’t stretch a photo that’s 500×250 pixels to anything beyond 500 pixels wide because *it’ll get pixelated*. Retina displays and mobile devices complicate things even more.
+
+> **Retina screens have twice as many pixels per inch than standard-resolution screens.**
+
+![](./assets/standard-vs-retina-resolution-64f6b6.png)
+
+That is to say, each retina pixel is the equivalent of 4 standard pixels. This has a big impact on how images are displayed in a web browser. To render correctly on a retina device, an image needs to be twice as big as its final display dimensions.
+
+To make our images responsive, we now have to take three things into consideration:
+
+1) The device’s dimensions
+2) The image’s dimensions
+3) The device’s screen resolution
+   
+#### **Ways to solve the problem:**
+
+1) Responsive SVG Images
+
+    They “just work.” Since they’re vector-based, SVGs avoid the screen resolution problems that we’ll see in the next section.
+
+    Browsers automatically scale up SVGs for retina devices, so this 500×250 pixel SVG image will render crisply on both standard and retina devices.
+
+    ```
+    <div class='section content'>
+      <img class='illustration' src='images/illustration.svg' />
+    </div>
+    ```
+
+    SVGs let us forget about screen resolution issues, but we do need to shrink the illustration to fit neatly into our fluid tablet and mobile layouts.
+
+    > To get a fluid image in Chrome, we need to tell the illustration to always fill the width of its container.
+
+    ```
+    .illustration {
+      width: 100%;
+    }
+    ```
+
+2) Retina Optimization Using `srcset`
+
+    Adding a `srcset` attribute to our `<img/>` element lets us present our high-resolution image only to retina devices, falling back to the low-resolution version for standard screens.
+
+    ```
+    <div class='illustration'>
+      <img src='illustration-small.png'
+          srcset='images/illustration-small.png 1x,
+                  images/illustration-big.png 2x'
+          style='max-width: 500px'/>
+    </div>
+    ```
+
+    The `srcset` attribute points to a list of alternative image files, along with properties defining when the browser should use each of them.
+
+    The `1x` tells the browser to display illustration-small.png on standard-resolution screens. The `2x` means that illustration-big.png is for retina screens.
+
+    Older browsers that don’t understand `srcset` fall back to the `src` attribute.
+  
+3) Art Direction Using `<picture>`
+
+    It lets you optimize layouts by sending completely different images to the user depending on their device. For this, we need the `<picture>` and `<source>` elements. The former is just a wrapper, and the latter conditionally loads images based on media queries.
+
+    ```
+    <div class='section header'>
+      <div class='photo'>
+        <picture>
+          <source media='(min-width: 401px)'
+                  srcset='images/photo-big.jpg'/>
+          <source media='(max-width: 400px)'
+                  srcset='images/photo-tall.jpg'/>
+          <img src='images/photo-small.jpg'/>
+        </picture>
+      </div>
+    </div>
+    ```
+
+    The `<img/>` element is only used as a fallback for older browsers.
+
+    > Conceptually, this is pretty similar to using media queries in CSS.
+    > In each `<source>` element, the media attribute defines when the image should be loaded, and srcset defines which image file should be loaded.
+
+    **Bad side: We lost retina optimization**. as long as the screen width is 401 pixels or greater, the browser will always use the high-resolution, wide-cropped image.
