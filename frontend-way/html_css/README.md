@@ -260,3 +260,33 @@ Otherwise, add an `overflow: hidden` declaration to the container element.
 * Use `order` to customize the order of individual elements.
 * Use `align-self` to vertically align individual items.
 * Use `flex` to create flexible boxes that can stretch and shrink.
+
+
+### **Positioning**
+
+“Static positioning” refers to the normal flow of the page that we’ve been working with up ’til this point.
+
+> The vast majority of elements on a web page should be laid out according to the static flow of the page.
+> These other positioning schemes come into play when you want to do more advanced things like tweak the position of a particular element or animate a UI component without messing up the surrounding elements.
+
+The other three types of positioning are “relative”, “absolute”, and “fixed”:
+![](./assets/css-positioning-schemes-summary-d7f831.png)
+
+Relative positioning was for tweaking the position of an element without affecting its surrounding boxes.
+
+Absolute positioning took elements out of the static flow of the page and placed them relative to the browser window, while relatively absolute positioning allowed us to hook back into the static flow of the page.
+
+Finally, fixed positioning let us make elements that didn't scroll with the rest of the page.
+
+The CSS `position` property lets you alter the positioning scheme of a particular element. **Its default value, as you might imagine, is `static`.**
+**When an element’s position property doesn’t have a value of static, it’s called a “positioned element”**.
+
+> Only **positioned** elements pay attention to their z-index property.
+
+### **z-index**
+
+The z-index property lets you control the depth of elements on the page.
+
+If you think of your screen as 3D space, negative z-index values go farther into the page, and positive ones come out of the page.
+
+![](./assets/css-z-index-c87ef0.png)
