@@ -396,3 +396,110 @@ To make our images responsive, we now have to take three things into considerati
     > In each `<source>` element, the media attribute defines when the image should be loaded, and srcset defines which image file should be loaded.
 
     **Bad side: We lost retina optimization**. as long as the screen width is 401 pixels or greater, the browser will always use the high-resolution, wide-cropped image.
+
+### **The `<article>` element** 
+
+represents an independent article in a web page. It should only wrap content that can be plucked out of your page and distributed in a completely different context. For instance, an app like *Flipboard* **should be able to** grab an `<article>` element from your site, display it in its own app, and have it make perfect sense to its readers.
+
+> Think of it as a way to merge multiple HTML files into a single document without confusing search engines, browsers, or other machines that are trying to parse our content.
+> 
+### **The `<section>` element**
+
+is sort of like an `<article>`, except it doesn’t need to make sense outside the context of the document.
+
+That is, an app like *Flipboard* **wouldn’t** try to pull out all the `<section>`’s of your page and present them as independent pieces of content.
+
+> Think of `<section>` as an explicit way to define the sections in a document outline.
+
+Also note that each `<section>` element s**hould contain at least one heading**, otherwise it will add an *“untitled section”* to your document outline.
+
+### **The `<header>` element**
+
+The `<header>` element is a new piece of semantic markup, not to be confused with headings (the `<h1>-<h6>` elements). It denotes introductory content for a section, article, or entire web page.
+“Introductory content” can be anything from your company’s logo to navigational aids or author information. 
+It’s a best practice to wrap a website’s name/logo and main navigation in a `<header`>, so let’s go ahead and add one to our example project:
+
+**Headers are only associated with the nearest sectioning element—typically a `<body>`, `<section>`, or `<article>` element.**
+
+### **The `<footer>` element**
+
+Conceptually, footers are basically the same as headers, except they generally come at end of an article/website opposed to the beginning.
+
+> Common use cases include things like copyright notices, footer navigation, and author bios at the end of blog posts.
+
+**Footers behave the same as `<header>` in that they’re associated with the nearest sectioning element.**
+
+### **The `<aside>` element**
+
+Headers and footers are ways to add extra information to an article, but sometimes we want to remove information from an article.
+
+> For example, a sponsored blog post might contain an advertisement about the sponsoring company; however, we probably don’t want to make it part of the article text.
+> **This is what the `<aside>` element is for.**
+
+When used outside an `<article>`, an `<aside>` is associated with the page as a whole (much like `<header>` and `<footer>`).
+This makes it a good choice for marking up a site-wide sidebar.
+Add the following underneath the closing `</article>` tag, before the second `<footer>`
+
+### **The `<time>` element**
+
+The `<time>` element represents either a time of day or a calendar date. Providing a machine-readable date makes it possible for browsers to automatically link it to users’ calendars and helps search engines clearly identify specific dates. A simple Google search will show you the effect of including a `<time>` element on your page:
+
+![](./assets/time-element-in-google-search-results-5bba38.png)
+
+The machine-readable date is defined in the datetime attribute. An easy way to remember the date format is that it goes from largest time period to smallest: year, month, then date. Note that even though the year isn’t included in the human-readable text, this tells search engines that our article was published in 2017.
+
+![](./assets/datetime-format-d0c825.png)
+
+```
+<header>
+  <h1>Semantic HTML</h1>
+  <p>By Troy McClure. Published <time datetime='2017-1-3'>January
+      3rd</time></p>
+</header>
+```
+
+It’s possible to include times and time zones inside of datetime, too. If we wanted to add a 3:00pm PST time to our publish date, we’d use the following:
+
+```
+<time datetime='2017-1-3 15:00-0800'>January 3rd</time>
+```
+
+The time itself is in 24-hour format, and the -0800 is the time zone offset from GMT (in this case, -0800 represents Pacific Standard Time).
+
+### **The `<address>` element**
+
+The `<address>` element is like `<time>` in that it doesn’t deal with the overall structure of a document, but rather embellishes the parent `<article>` or `<body>` element with some metadata.
+**It defines contact information for the author of the article or web page in question.** 
+
+> `<address>` should not be used for arbitrary physical addresses.
+
+For instance, maybe we want to add an author email address in our article’s footer:
+
+```
+<footer>
+  <p>This fake article was written by somebody at InternetingIsHard.com, which
+     is a pretty decent place to learn how to become a web developer. This footer
+     is only for the containing <code>&lt;article&gt;</code> element.</p>
+  <address>
+    Please contact <a href='mailto:troymcclure@example.com'>Troy
+    McClure</a> for questions about this article.
+  </address>
+</footer>
+```
+
+### **The `<figure>` and  `figcaption` elements**
+
+The former represents a self-contained “figure”, like a diagram, illustration, or even a code snippet.
+The latter is optional, and it associates a caption with its parent `<figure>` element.
+
+**A common use case for both of these is to add visible descriptions to the `<img/>` elements in an article, like so:**
+
+```
+<figure>
+  <img src='semantic-elements.png'
+        alt='Diagram showing <article>, <section>, and <nav> elements'/>
+  <figcaption>New HTML5 semantic elements</figcaption>
+</figure>
+```
+
+The `alt` attribute is closely related to the `<figcaption>` element. `alt` should serve as a text replacement for the image, while `<figcaption>` is a supporting description displayed with either the image or its text-based equivalent.
