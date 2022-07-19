@@ -503,3 +503,89 @@ The latter is optional, and it associates a caption with its parent `<figure>` e
 ```
 
 The `alt` attribute is closely related to the `<figcaption>` element. `alt` should serve as a text replacement for the image, while `<figcaption>` is a supporting description displayed with either the image or its text-based equivalent.
+
+### **forms**
+
+Every HTML form begins with the aptly named `<form>` element.
+It accepts a number of attributes, but the most important ones are `action` and `method`.
+
+The `action` attribute defines the URL that processes the form. This is typically a special URL defined by your web server that knows how to process the data.
+
+The `method` attribute can be either `post` or `get`, both of which define how the form is submitted to the backend server.
+
+> This is largely dependent on how your web server wants to handle the form, but the general rule of thumb is to use `post` **when you’re changing data on the server**, reserving `get` **for when you’re only getting data**.
+
+### **The `<input>` element**
+
+To actually collect user input, we need a new tool: the `<input/>` element.
+
+```
+<div class='form-row'>
+  <label for='full-name'>Name</label>
+  <input id='full-name' name='full-name' type='text'/>
+</div>
+```
+
+First, we have a container `<div>` to help with styling. This is pretty common for separating input elements. Second, we have a `<label>`, which you can think of as another semantic HTML element, like `<article>` or `<figcaption>`, but for form labels. A label’s for attribute must match the id attribute of its associated `<input/>` element.
+
+![](./assets/label-element-for-attribute-313489.png)
+
+Third, the `<input/>` element creates a text field. It’s a little different from other elements we’ve encountered because it can dramatically change appearance depending on its type attribute, but it always creates some kind of interactive user input.
+
+> Remember that ID selectors are bad—the id attribute here is only for connecting it to a `<label>` element.
+
+Conceptually, an `<input/>` element represents a “variable” that gets sent to the backend server. The `name` attribute defines the name of this variable, and the value is whatever the user entered into the text field.
+
+> Note that you can pre-populate this value by adding a value attribute to an `<input/>` element.
+
+There’s a bunch of other built-in validation options besides email addresses, which you can read about on MDN’s `<input/>` reference.
+
+Of particular interest are the `required`, `minlength`, `maxlength`, and `pattern` attributes.
+
+> Since we can now have a “right” and a “wrong” input value, we should probably convey that to users. The `:invalid` and `:valid` pseudo-classes let us style these states independently.
+
+i.e.
+
+```
+.form-row input[type='text']:invalid,
+.form-row input[type='email']:invalid {
+  border: 1px solid #D55C5F;
+  color: #D55C5F;
+  box-shadow: none; /* Remove default red glow in Firefox */
+}
+```
+
+### **Radio Buttons**
+
+Changing the `type` property of the `<input/>` element to `radio` transforms it into a radio button. Radio buttons are a little more complex to work with than text fields because they always operate in groups, allowing the user to choose one out of many predefined options.
+
+![](./assets/radio-label-fieldset-legend-elements-0affe5.png)
+
+This means that we not only need a label for each `<input/>` element, but also a way to group radio buttons and label the entire group. This is what the `<fieldset>` and `<legend>` elements are for. Every radio button group you create should:
+
+* Be wrapped in a `<fieldset>`, which is labeled with a `<legend>`
+* Associate a `<label>` element with each radio button.
+* Use the same `name` attribute for each radio button in the group.
+* Use different `value` attributes for each radio button.
+
+i.e 
+```
+<fieldset class='legacy-form-row'>
+  <legend>Type of Talk</legend>
+  <input id='talk-type-1'
+         name='talk-type'
+         type='radio'
+         value='main-stage' />
+  <label for='talk-type-1' class='radio-label'>Main Stage</label>
+  <input id='talk-type-2'
+         name='talk-type'
+         type='radio'
+         value='workshop'
+         checked />
+  <label for='talk-type-2' class='radio-label'>Workshop</label>
+</fieldset>
+```
+
+> Unlike text fields, the user can’t enter custom values into a radio button, which is why each one of them needs an explicit `value` attribute.
+
+> It’s also very important that **each radio button** has the **same** `name` **attribute**, otherwise the form wouldn’t know they were part of the same group.
