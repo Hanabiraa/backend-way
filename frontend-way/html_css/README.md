@@ -589,3 +589,278 @@ i.e
 > Unlike text fields, the user can’t enter custom values into a radio button, which is why each one of them needs an explicit `value` attribute.
 
 > It’s also very important that **each radio button** has the **same** `name` **attribute**, otherwise the form wouldn’t know they were part of the same group.
+
+### **Web Typography**
+
+“Web typography” refers to the appearance of all the text on your website.It includes basic CSS text properties like what font to use and whether it should be italic or not, but typography is much more than that. It’s about the space between and around letters, words, and lines. It’s the size of different runs of text in relation to one another, and the history behind each font family.
+
+![](./assets/web-typography-terminology-e06b82.png)
+
+#### **Web Safe Fonts**
+
+Long, long ago, web developers only had “web safe fonts” at their disposal.These were a collection of a dozen or so fonts that were pre-installed on most computers. There was no such thing as a custom font file that you could send to browsers to use on your website.
+
+#### **Custom Web Fonts**
+
+Around 2010, browsers began supporting custom web fonts, which was great, except for the fact that each browser and device required a different file format. Accordingly, most websites provided 4 different web font files:
+
+1) .svg
+2) .eot
+3) .ttf  (all, without IE)
+4) .woff (for new browsers)
+
+> This resulted in the “Bulletproof @font-face syntax”, which you’ll likely encounter at some point in your web development career.
+
+![](./assets/bulletproof-font-face-d18a22.png)
+
+
+#### **WOFF Fonts**
+
+Recently, the industry has standardized on the Web Open Font Format (WOFF), so things have gotten a little bit simpler for us. Over 90% of modern browsers support `.woff` fonts, and support for its next evolution, `.woff2`, is growing. WOFF2 is similar to the original WOFF format, but offers a significant reduction in file size (which means better performance).
+
+> Eventually, you’ll only need to support WOFF2, but right now, we suggest providing both WOFF and WOFF2 web fonts to get decent coverage for older browsers and improved performance on modern ones.
+
+#### **Font Families and Font Faces**
+
+In CSS, font weights are expressed as numeric values between 100 and 900.
+Fortunately, there are relatively standardized, human-friendly terms for each of these numeric values. “Black” usually means 900, “bold” is 700, “regular” is 400, etc.
+
+![](./assets/font-weights-and-styles-9bf7f0.png)
+
+#### **Paragraph Indents**
+
+Separating paragraphs from one another is one of the most fundamental functions of typography.
+
+> There’s two generally accepted solutions: either use a first-line indent or a margin between the paragraphs.
+
+> Your readers (hopefully) aren’t stupid—they don’t need two signs that a new paragraph is happening, so never use both an indent and a margin.
+
+![](./assets/paragraph-indents-vs-margins-943b17.png)
+
+The CSS `text-indent` property defines the size of the first-line indent of a particular element (usually a `<p>`).
+
+```
+<style>
+  .paragraph-indent p {
+    text-indent: 1em;
+    margin-bottom: 0;
+  }
+  .paragraph-indent p:first-of-type {
+    text-indent: 0;
+  }
+</style>
+```
+
+#### **Text Alignment**
+
+The alignment of text has a subconscious impact on how you read it. You’ve probably never noticed it before, but your eyes don’t move in a smooth motion as they read over a paragraph—they jump from word to word and from line to line.
+
+1. Left Alignment
+  
+    Most of your text should be left-aligned because it gives the reader a vertical anchor to jump back to on every line. Long runs of text, in particular, should almost always be left-aligned. Short runs of text and headings have a little bit more leeway.
+
+    ![](./assets/left-text-alignment-26dbc5.png)
+
+    ```
+    <style>
+      .left {
+        text-align: left;
+      }
+    </style>
+    ```
+
+2. Center Alignment
+  
+    Center-aligned text doesn’t have that anchor, so it’s easier for the eye to get lost when it tries to jump to the next line.
+
+    ![](./assets/center-text-alignment-29e1d3.png)
+
+    Our example image is wrapped in a `<figure>` and the caption text is in a `<figcaption>`
+
+    ```
+    <style>
+      figcaption {
+        display: none;
+      }
+      @media only screen and (min-width: 900px) {
+        figure {
+          position: relative;
+        }
+        figcaption {
+          display: block;
+
+          font-style: italic;
+          text-align: right;
+          background-color: #FFFFFF;
+
+          position: absolute;
+          left: -220px;
+          width: 200px;
+        }
+      }
+    </style>
+    ```
+
+3. Right Alignment
+  
+    Another consideration when choosing text alignment is the relationship it creates with the surrounding elements.
+
+    We want to move the image’s caption to the left of the image and right-align it to make it look like it’s attached to the image:
+    ![](./assets/right-aligning-a-caption-cb645b.png)
+
+    ```
+    <style>
+      .center {
+        text-align: center;
+      }
+    </style>
+    ```
+
+4. Justified Text
+   
+   Justified text is created by subtly adjusting the space between words/letters and splitting long words with hyphens until each line is the same width. Without a high-quality hyphenation engine, justified text results in awkwardly large spaces between words. These uneven spaces make it harder for the eye to move horizontally across the text.
+
+   ![](./assets/good-vs-bad-hyphenation-engine-ba40e3.png)
+
+   Unfortunately, most browsers don’t have any kind of built-in hyphenation engine, so you’re better off avoiding justified text in HTML documents.
+
+   ```
+   <style>
+    .justify {
+      text-align: justify;
+    }
+   </style>
+   ```
+
+   > Compare this with the left-aligned paragraph. It’s subtle, but the left-aligned paragraph is more uniform and inviting.
+
+#### **Vertical Text Spacing**
+
+Just as alignment isn’t an arbitrary decision, neither is the space between text. In this section, we’re concerned with the responsible use of three CSS properties:
+
+* margin-top (or padding-top)
+* margin-bottom (or padding-bottom)
+* line-height
+
+The first two should be pretty familiar by now, and they define the vertical space between separate paragraphs.
+
+The new `line-height` property determines the amount of space between lines in the same paragraph.
+
+> Together, these properties control the “vertical rhythm” of a web page.
+
+There’s all sorts of techniques to figure out the “optimal” vertical rhythm for a given layout, but the general principles are:
+
+* Give things enough space to breath.
+* Use consistent spacing throughout the page.
+
+![](./assets/vertical-text-spacing-a9d71f.png)
+
+#### **Line Length**
+
+If the vertical spacing of your text isn’t arbitrary, it should be no surprise that the horizontal spacing isn’t, either. “Line length” or “measure” refers to the horizontal length of your text. You can think of it as the number of characters or words that fit into a single line. Measure has everything to do with the following CSS properties:
+
+* width
+* margin-left (or padding-left)
+* margin-right (or padding-right)
+
+> **A good rule-of-thumb is** to limit the number of characters on a single line to around 80.
+
+Like alignment, this subtly affects the readability of your content. It takes energy for your eye to move from the left edge of a paragraph to the right, and the farther it has to scan, the faster it gets tired. Longer lines also make it easier to get lost when you finish a line and need to jump back to the beginning of the next line.
+
+![](./assets/line-length-measure-ce052b.png)
+
+### **Typography Guidelines**
+
+* Use a `font-size` between `14px` and `20px` for the body element.
+* Use “curly quotes” and apostrophes with the `&rsquo;`, `&lsquo;`, `&rdquo`;, and `&ldquo;` HTML entities.
+* Use proper dashes (`&ndash;`, `&mdash;`) and other symbols (`&copy;`).
+* Don’t use `text-decoration: underline` except for hover states.
+* Use *real* italic fonts over synthesized ones if not it’s too much of a performance burden.
+
+> If you find this stuff fascinating, [Practical Typography](https://practicaltypography.com/summary-of-key-rules.html) has a fantastic list of general rules to follow when typesetting a document.
+
+### **Where to Find Web Fonts and how to use** 
+
+There’s a ton of places on the web where you can download both free and premium web fonts, but our three favorites are listed below.
+
+| **Website** | **Price** | **Quality** | **Selection** |
+| - | - | - | - | 
+| [Font Quirrel](https://www.fontsquirrel.com/) | Free | Hit-or-Miss | Huge |
+| [Google Fonts](https://fonts.google.com/) | Free | Good | Decent |
+| [Fontspring](https://www.fontspring.com/) | Expensive | Excellent | Huge |
+
+#### **Locally Hosted Web Fonts**
+
+There are two distinct methods of adding web fonts to your website: locally hosted or externally hosted.
+
+First, we’ll be adding a locally hosted web font to our example project.This is a three-step process:
+
+1. Download a web font and add it to your project.
+2. Embed the web font in your stylesheet.
+3. Use the font elsewhere in your stylesheet.
+
+To actually use it in our web page, we need to embed it into our stylesheet with the `@font-face` “at-rule”.
+>  Web fonts must always be included at the top of a stylesheet
+
+i.e. 
+```
+@font-face {
+  font-family: 'Roboto';
+  src: url('Roboto-Light-webfont.woff') format('woff');
+}
+```
+
+The `font-family` property defines how we’ll refer to this font later on.This operates as an internal label, so it can be anything you want.
+
+#### **Multiple Font Faces (The Right Way)**
+
+To maintain the familial relationship between our three font faces, they all need to use a shared `Roboto` value for their `font-family` property. To distinguish between our light, italic, and bold faces, we’ll add `font-style` and `font-weight` properties to the at-rule.
+
+```
+@font-face {
+  font-family: 'Roboto';
+  src: url('Roboto-Light-webfont.woff') format('woff');
+  font-style: normal;
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('Roboto-LightItalic-webfont.woff') format('woff');
+  font-style: italic;
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('Roboto-Bold-webfont.woff') format('woff');
+  font-style: normal;
+  font-weight: 700;
+}
+```
+
+#### **Externally Hosted Web Fonts**
+
+Instead of adding `.woff` files to our project and embedding them with `@font-face`, we can let Google Fonts do this part for us.
+
+i.e. 
+
+Remember that `<link/>` is how we include an external stylesheet, and that’s exactly what the above HTML is doing. However, instead of linking to a local CSS file, it’s including some CSS defined by Google Fonts.
+
+```
+<link href="https://fonts.googleapis.com/css?family=UnifrakturMaguntia" rel="stylesheet">
+```
+
+
+
+Now that we’ve embedded our UnifrakturMaguntia web font, we should be able to use it to style any HTML element we want.
+
+```
+<style>
+  .blackletter {
+    font-family: 'UnifrakturMaguntia', cursive;
+  }
+</style>
+```
+
+> Google Fonts are a quick and easy solution, **but professional sites should typically use locally hosted web fonts**. **This gives you a lot more flexibility** (you’re not limited to Google’s font offering) and can have performance/reliability gains if you’ve optimized the rest of your site correctly.
