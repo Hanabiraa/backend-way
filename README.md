@@ -19,10 +19,10 @@ from dataclasses import asdict, dataclass
 
 @dataclass
 class FutureStack:
-    languages: tuple[str, ...] = ("Python")
-    databases: tuple[str, ...] = ("SQLite", "PostgreSQL", "Redis")
+    languages: tuple[str, ...] = ("Python", "HTML5", "CSS")
+    databases: tuple[str, ...] = ("PostgreSQL")
     misc     : tuple[str, ...] = ("Docker")
-    ongoing  : tuple[str, ...] = ("Django", "DRF", "asyncio", "aiohttp")
+    ongoing  : tuple[str, ...] = ("Django", "DRF")
 
     def jsonify(self) -> str:
         return json.dumps(asdict(self), indent=4)
@@ -77,27 +77,19 @@ print(stack.jsonify())
 | Title | Author | Status |
 | --- | :---: | :---: |
 | [DS & Algorithms (Online book)](https://www.programiz.com/dsa) | Programiz | To Do |
-| Грокаем алгоритмы | Бхаргава Адитья | To Do |
+| Грокаем алгоритмы | Бхаргава Адитья | **Completed** |
 | Алгоритмы. Руководство по разработке | Стивен Скиена | To Do |
 
 > ### SQL
-#### Courses (Coming soon)
-| URL | Title | Status |
-| :---: | --- | :---: |
-|||
+
+#### Books
+| Title | Author | Status |
+| --- | :---: | :---: |
+| PostgreSQL. Основы языка SQL | Е.П. Моргунов | To Do  |
+
+> ### Other
 
 #### Books (Coming soon)
 | Title | Author | Status |
 | --- | :---: | :---: |
-| |
-
-> ### Soft Skills
-#### Courses (Coming soon)
-| URL | Title | Status |
-| :---: | --- | :---: |
-|||
-
-#### Books (Coming soon)
-| Title | Author | Status |
-| --- | :---: | :---: |
-| |
+| [html & css is hard](https://www.internetingishard.com/html-and-css/)| Oliver James | **Completed** |
