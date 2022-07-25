@@ -43,6 +43,8 @@ print(stack.jsonify())
 
 > frontend-way - to study on beginning level html/css, js and other frontend  frameworks
 
+> sql-way - to study SQL syntax/dialects and various DBMS (Database Management System)
+
 > Certificates - for certificates from various courses / hackathons and others
 
 ***

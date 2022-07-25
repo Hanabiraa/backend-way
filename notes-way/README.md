@@ -7,3 +7,5 @@
 > internet 🤖 - about how to work OSI stack, browsers, http and etc
 
 > python 🐍 - some interests features for this lang
+
+> yandex-backend-school-2022 🎯 - Open lectures from Yandex about the backend and various topics related to it
