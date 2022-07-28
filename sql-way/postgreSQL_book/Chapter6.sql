@@ -173,5 +173,106 @@ VALUES (0107, 101201, 'math', 'start', 1, 3),
        (0111, 909090, 'physics', 'end', 1, 5),
        (0110, 127901, 'physics', 'start', 2, 4);
 
-SELECT * FROM progress
+SELECT *
+FROM progress
 ORDER BY doc_ser, doc_num DESC;
+
+
+-- Задание 8
+
+CREATE TABLE subjects
+(
+    subject_id integer,
+    subject    text UNIQUE,
+    PRIMARY KEY (subject_id)
+);
+
+INSERT INTO subjects
+VALUES (1, 'math'),
+       (2, 'biology'),
+       (3, 'physics'),
+       (4, 'chemistry');
+
+SELECT *
+FROM subjects;
+
+-- -- изменение колонки "предметы", добавление внешнего ключа
+ALTER TABLE progress
+    RENAME COLUMN subject TO subject_id;
+
+ALTER TABLE progress
+    ALTER COLUMN subject_id TYPE integer
+        USING (CASE
+                   WHEN progress.subject_id = 'math' THEN 1
+                   WHEN progress.subject_id = 'biology' THEN 2
+                   WHEN progress.subject_id = 'physics' THEN 3
+                   ELSE 4 END),
+    ADD FOREIGN KEY (subject_id) REFERENCES subjects (subject_id);
+
+INSERT INTO progress
+VALUES (110, 127901, 4, 'start', 1, 5),
+       (111, 909090, 4, 'start', 1, 5),
+       (109, 321321, 4, 'start', 1, 5),
+       (107, 101201, 4, 'start', 1, 5);
+
+SELECT *
+FROM progress;
+
+-- Задание 9
+
+ALTER TABLE students
+    ADD CONSTRAINT check_name CHECK (name <> '');
+
+-- модификация для недопускания пробельных символов
+ALTER TABLE students
+    DROP CONSTRAINT check_name,
+    ADD CONSTRAINT check_name CHECK ( trim(both from name) <> '');
+
+-- Задание 10
+
+-- -- смена типа основного ключа c integer на text
+
+-- -- -- Для начала удаляем foreign key в ссылающейся таблице
+-- -- -- и меняем тип столбца в ней
+ALTER TABLE progress
+    DROP CONSTRAINT progress_doc_ser_doc_num_fkey,
+    ALTER COLUMN doc_ser TYPE text USING cast(doc_ser AS text);
+
+-- -- -- Меняем тип primary key в ссылочной таблице
+ALTER TABLE students
+    ALTER COLUMN doc_ser TYPE text USING cast(doc_ser AS text);
+
+-- -- -- Снова привязываем foreign key в ссылающейся таблице
+ALTER TABLE progress
+    ADD FOREIGN KEY (doc_ser, doc_num) REFERENCES students (doc_ser, doc_num)
+
+-- -- -- проверка
+INSERT INTO students
+VALUES (55532, 'Кристофер Нолан Андреевич', '0409', 512000);
+
+INSERT INTO progress
+VALUES ('0409', 512000, 3, 'end', 1, 5);
+
+SELECT *
+FROM progress;
+
+SELECT *
+FROM students;
+
+-- Задание 17
+
+-- -- вертикальное view (т.е. часть столбцов)
+CREATE VIEW airports_names AS
+    SELECT airport_code, airport_name, city
+    FROM demo.bookings.airports;
+
+-- -- горизонтальное view (т.е. часть строк)
+CREATE VIEW siberian_airports AS
+    SELECT * FROM airports
+    WHERE city = 'Новосибирск' OR city = 'Кемерово';
+
+-- -- пример и вертикального и горизонтального view (не все столбцы и не все строки)
+CREATE OR REPLACE VIEW airports_names AS
+    SELECT airport_code, airport_name, city
+    FROM demo.bookings.airports
+    WHERE airport_name <> city;
