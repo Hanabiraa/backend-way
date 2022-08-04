@@ -1,286 +1,278 @@
--- Глава: ОСНОВНЫЕ ТИПЫ ДАННЫХ
--- Задание 12
-SHOW datestyle;
+-- Глава 6.
 
-SELECT '18 may 2016'::date, '18 may 2016'::timestamp;
-SELECT '18-05-2016'::date, '2016-05-18'::timestamp;
+-- -- Просмотр схемы по умолчанию
+SHOW search_path;
 
-SET datestyle TO 'MDY';
-SELECT '18 may 2016'::date, '18 may 2016'::timestamp;
-SELECT '05-18-2016'::date, '05-18-2016'::timestamp;
+-- Задание 1
+CREATE TABLE students
+(
+    record_book  numeric(5) NOT NULL,
+    name         text       NOT NULL,
+    doc_ser      numeric(4),
+    doc_num      numeric(6),
+    who_adds_row text DEFAULT current_user,
+    time_to_add  time DEFAULT current_time,
+    PRIMARY KEY (record_book)
+);
 
-SET datestyle TO 'ISO, DMY';
-SHOW datestyle;
+INSERT INTO students
+VALUES (12300, 'Иванов Иван Васильевич', 0402, 543281);
 
--- Задание 15
-SELECT to_char(current_timestamp, 'mi:ss');
-SELECT to_char(current_timestamp, 'hh24:mi:ss');
-SELECT to_char(current_timestamp, 'dd');
-SELECT to_char(current_timestamp, 'yyyy-mm-dd');
-SELECT to_char(current_timestamp, 'yyyy-mm, TZ OF');
+SELECT *
+FROM students;
 
--- Задание 16
--- вызов ошибки
-SELECT '21-21-2021'::date;
+-- -- Смена типа колонки с времени на время с датой
+ALTER TABLE students
+    DROP COLUMN time_to_add,
+    ADD COLUMN date_to_add timestamptz,
+    ALTER COLUMN date_to_add SET DEFAULT now();
+
+INSERT INTO students
+VALUES (99900, 'Петров Петр Петрович', 1387, 127001);
+
+-- -- Заполнение null столбцов значениями по default
+UPDATE students
+SET date_to_add = DEFAULT
+WHERE date_to_add IS NULL;
+
+
+SELECT *
+FROM students;
+
+-- Задание 2
+
+CREATE TABLE progress
+(
+    record_book numeric(5) NOT NULL,
+    subject     text       NOT NULL,
+    acad_year   text       NOT NULL,
+    term        numeric(1) NOT NULL
+        CHECK (term = 1 or term = 2),
+    mark        numeric(1) NOT NULL
+        CHECK (mark >= 3 or mark <= 5)
+        DEFAULT 5,
+    FOREIGN KEY (record_book) REFERENCES students (record_book)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+-- -- Добавление колонки с ограничением и удалением предыдущего ограничения
+ALTER TABLE progress
+    ADD COLUMN test_form text,
+    ADD CONSTRAINT check_mark_for_test_form CHECK
+        (
+            (test_form = 'экзамен' AND mark IN (3, 4, 5))
+            OR
+            (test_form = 'зачет' AND mark IN (0, 1))
+        ),
+    DROP CONSTRAINT progress_term_check1;
+
+INSERT INTO progress
+VALUES (99900, 'math', '1', 1, 1, 'зачет'),
+       (99900, 'math', '1', 1, 4, 'экзамен'),
+       (99900, 'biology', '2', 2, 0, 'зачет'),
+       (99900, 'biology', '2', 2, 5, 'экзамен'),
+       (12300, 'math', '3', 2, 3, 'экзамен'),
+       (12300, 'math', '3', 2, 4, 'экзамен'),
+       (12300, 'physics', '1', 1, 0, 'зачет'),
+       (12300, 'physics', '2', 2, 1, 'зачет');
+
+SELECT *
+FROM progress;
+
+-- -- Вызов ошибки при вставке
+INSERT INTO progress
+VALUES (99900, 'math', '1', 1, 8, 'зачет'),
+       (99900, 'math', '1', 1, 2, 'что-то');
+
+-- Задание 3
+
+ALTER TABLE progress
+    ALTER COLUMN term DROP NOT NULL,
+    ALTER COLUMN mark DROP NOT NULL;
+
+-- -- Проверка, хватит ли ограничений без ограничения not null
+INSERT INTO progress
+VALUES (99900, 'chemistry', '6', 1, NULL, 'зачет'),
+       (99900, 'chemistry', '6', 1, NULL, 'экзамен');
+
+SELECT *
+FROM progress;
+
+SELECT NOT NULL > 5;
+
+-- -- Вывод - ограничение not null должно быть наложено, даже когда есть ограничения помимо
+
+DELETE
+FROM progress
+WHERE mark IS NULL;
+
+ALTER TABLE progress
+    ALTER COLUMN term SET NOT NULL,
+    ALTER COLUMN mark SET NOT NULL;
+
+-- Задание 5
+ALTER TABLE students
+    ADD UNIQUE (doc_ser),
+    ADD UNIQUE (doc_num);
+
+INSERT INTO students
+VALUES (40601, 'Григорьев Михаил Иванович', 0107, NULL),
+       (32500, 'Михайлов Альберт Давидович', NULL, NULL);
+
+SELECT *
+FROM students;
+
+-- Задание 6
+
+DROP TABLE progress, students;
+
+CREATE TABLE students
+(
+    record_book numeric(5) NOT NULL UNIQUE,
+    name        text       NOT NULL,
+    doc_ser     numeric(4),
+    doc_num     numeric(6),
+    PRIMARY KEY (doc_ser, doc_num)
+);
+
+CREATE TABLE progress
+(
+    doc_ser   numeric(4),
+    doc_num   numeric(6),
+    subject   text       NOT NULL,
+    acad_year text       NOT NULL,
+    term      numeric(1) NOT NULL
+        CHECK (term IN (1, 2)),
+    mark      numeric(1) NOT NULL
+        CHECK (mark >= 3 AND mark <= 5)
+        DEFAULT 5,
+    FOREIGN KEY (doc_ser, doc_num)
+        REFERENCES students
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+INSERT INTO students
+VALUES (40601, 'Григорьев Михаил Иванович', 0107, 101201),
+       (32500, 'Михайлов Альберт Давидович', 0108, 321321),
+       (34120, 'Михайлов Альберт Давидович', 0109, 321321),
+       (61503, 'Михайлов Альберт Давидович', 0110, 127901),
+       (75931, 'Михайлов Альберт Давидович', 0111, 909090);
+
+SELECT *
+FROM students;
+
+INSERT INTO progress
+VALUES (0107, 101201, 'math', 'start', 1, 3),
+       (0108, 321321, 'math', 'end', 2, 3),
+       (0108, 321321, 'biology', 'start', 1, 5),
+       (0107, 101201, 'biology', 'end', 2, 4),
+       (0109, 321321, 'math', 'start', 1, 3),
+       (0110, 127901, 'math', 'end', 2, 3),
+       (0111, 909090, 'physics', 'end', 1, 5),
+       (0110, 127901, 'physics', 'start', 2, 4);
+
+SELECT *
+FROM progress
+ORDER BY doc_ser, doc_num DESC;
+
+
+-- Задание 8
+
+CREATE TABLE subjects
+(
+    subject_id integer,
+    subject    text UNIQUE,
+    PRIMARY KEY (subject_id)
+);
+
+INSERT INTO subjects
+VALUES (1, 'math'),
+       (2, 'biology'),
+       (3, 'physics'),
+       (4, 'chemistry');
+
+SELECT *
+FROM subjects;
+
+-- -- изменение колонки "предметы", добавление внешнего ключа
+ALTER TABLE progress
+    RENAME COLUMN subject TO subject_id;
+
+ALTER TABLE progress
+    ALTER COLUMN subject_id TYPE integer
+        USING (CASE
+                   WHEN progress.subject_id = 'math' THEN 1
+                   WHEN progress.subject_id = 'biology' THEN 2
+                   WHEN progress.subject_id = 'physics' THEN 3
+                   ELSE 4 END),
+    ADD FOREIGN KEY (subject_id) REFERENCES subjects (subject_id);
+
+INSERT INTO progress
+VALUES (110, 127901, 4, 'start', 1, 5),
+       (111, 909090, 4, 'start', 1, 5),
+       (109, 321321, 4, 'start', 1, 5),
+       (107, 101201, 4, 'start', 1, 5);
+
+SELECT *
+FROM progress;
+
+-- Задание 9
+
+ALTER TABLE students
+    ADD CONSTRAINT check_name CHECK (name <> '');
+
+-- модификация для недопускания пробельных символов
+ALTER TABLE students
+    DROP CONSTRAINT check_name,
+    ADD CONSTRAINT check_name CHECK ( trim(both from name) <> '');
+
+-- Задание 10
+
+-- -- смена типа основного ключа c integer на text
+
+-- -- -- Для начала удаляем foreign key в ссылающейся таблице
+-- -- -- и меняем тип столбца в ней
+ALTER TABLE progress
+    DROP CONSTRAINT progress_doc_ser_doc_num_fkey,
+    ALTER COLUMN doc_ser TYPE text USING cast(doc_ser AS text);
+
+-- -- -- Меняем тип primary key в ссылочной таблице
+ALTER TABLE students
+    ALTER COLUMN doc_ser TYPE text USING cast(doc_ser AS text);
+
+-- -- -- Снова привязываем foreign key в ссылающейся таблице
+ALTER TABLE progress
+    ADD FOREIGN KEY (doc_ser, doc_num) REFERENCES students (doc_ser, doc_num)
+
+-- -- -- проверка
+INSERT INTO students
+VALUES (55532, 'Кристофер Нолан Андреевич', '0409', 512000);
+
+INSERT INTO progress
+VALUES ('0409', 512000, 3, 'end', 1, 5);
+
+SELECT *
+FROM progress;
+
+SELECT *
+FROM students;
 
 -- Задание 17
--- вызов ошибки
-SELECT '21:15:16:22'::time;
 
--- Задание 18
-SELECT ('2016-09-16'::date - '2016-09-01'::date);
--- тип значения - integer
+-- -- вертикальное view (т.е. часть столбцов)
+CREATE VIEW airports_names AS
+    SELECT airport_code, airport_name, city
+    FROM demo.bookings.airports;
 
--- Задание 19
-SELECT ('20:34:35'::time - '19:44:45'::time); -- тип значения - interval
-SELECT ('20:34:35'::time + '19:44:45'::time);
--- ошибка, такой операции для типа данных time + time нет
+-- -- горизонтальное view (т.е. часть строк)
+CREATE VIEW siberian_airports AS
+    SELECT * FROM airports
+    WHERE city = 'Новосибирск' OR city = 'Кемерово';
 
--- Задание 20
-SELECT (current_timestamp - '2020-01-01'::timestamp) AS new_date;
--- тип результата interval,
--- но только с днями (даже если их больше 365) без
--- перевода в года и месяцы
-
-SELECT age(current_timestamp, '2020-01-01'::timestamp) AS new_date;
--- тип результата interval, но
--- уже с учетом лет и месяцев
-
-SELECT (current_timestamp + '1 mon'::interval) AS new_date;
-
--- Задание 23
-SELECT ('2016-09-16'::date - '2016-09-11'::date) AS new_int_val;
-SELECT ('2016-09-16'::timestamp - '2016-09-11'::timestamp) AS new_interval_val;
-
--- Задание 24
-SELECT ('20:34:35'::time - 1); -- ошибка, нельзя вычитать из типа time тип integer
-SELECT ('20:34:35'::time - '1'::interval) AS mod; -- можно модифицировать в интервал
-
-SELECT ('2016-09-16'::date - 1) AS new_date;
-
--- Задание 25
-
-SELECT date_trunc('microseconds', '1999-11-27 12:34:56.987654'::timestamp) AS microsec,
-       date_trunc('milliseconds', '1999-11-27 12:34:56.987654'::timestamp) AS milisec,
-       date_trunc('second', '1999-11-27 12:34:56.987654'::timestamp)       AS sec,
-       date_trunc('minute', '1999-11-27 12:34:56.987654'::timestamp)       AS min,
-       date_trunc('hour', '1999-11-27 12:34:56.987654'::timestamp)         AS hour,
-       date_trunc('day', '1999-11-27 12:34:56.987654'::timestamp)          AS day,
-       date_trunc('week', '1999-11-27 12:34:56.987654'::timestamp)         AS week,
-       date_trunc('month', '1999-11-27 12:34:56.987654'::timestamp)        AS month,
-       date_trunc('quarter', '1999-11-27 12:34:56.987654'::timestamp)      AS quarter,
-       date_trunc('year', '1999-11-27 12:34:56.987654'::timestamp)         AS year,
-       date_trunc('decade', '1999-11-27 12:34:56.987654'::timestamp)       AS decade,
-       date_trunc('century', '1999-11-27 12:34:56.987654'::timestamp)      AS century,
-       date_trunc('millennium', '1999-11-27 12:34:56.987654'::timestamp)   AS millennium;
-
--- Задание 27
--- получение значение из типа timestamp, поля такие же, как и в date_trunc
-SELECT extract('month' from '1999-10-01 12:34:56.987654'::timestamp) as month;
-
--- Задание 30
-CREATE TABLE test_bool
-(
-    a boolean,
-    b text
-);
-
-INSERT INTO test_bool
-VALUES (TRUE, 'yes'),
-       ('yes', true),
-       (1::boolean, false),
-       (false, '0'),
-       ('f', '1'),
-       ('t', '1');
-
-SELECT *
-FROM test_bool;
-
--- Задание 31
-CREATE TABLE birthdays
-(
-    person   text NOT NULL,
-    birthday date NOT NULL
-);
-
-INSERT INTO birthdays
-VALUES ('Ken Thompson', '1955-03-23'),
-       ('Ben Johnson', '1971-03-19'),
-       ('Andy Gibson', '1987-08-12');
-
--- -- дни рождения в 3 месяце
-SELECT *
-from birthdays
-WHERE extract('month' from birthday) = 3;
-
--- -- люди, достигшие возраста 40 лет
-SELECT *
-from birthdays
-WHERE current_timestamp - birthday >= '40 years'::interval;
-
-
--- -- точный возраст человека на текущий момент
-SELECT *,
-       extract('year' from age(current_timestamp, birthday)) AS age
-FROM birthdays;
-
--- Задание 32
-
--- -- Конкатенация массивов
-SELECT array_cat(ARRAY [1, 2, 3], ARRAY [13, 5]); -- создание массивов по стандарту SQL
-SELECT array_cat('{10000, 1, 100, 10}'::integer[], '{20, 3, 10000, 10000}'::integer[]);
--- синтаксис postgre
-
--- -- удаление элементов из массива (индексы начинаются с 1)
-SELECT array_remove('{1, 2, 3, 4, 5}'::integer[], 2);
-
--- Задание 33
-CREATE TABLE pilots
-(
-    pilot_name text,
-    shedule    integer[],
-    meal       text[]
-);
-
-INSERT INTO pilots
-VALUES ('Ivan', '{1, 3, 5, 6, 7}', '{"Сосиска", "Макароны", "Кофе"}'),
-       ('Petr', '{1, 2, 5, 7}', '{"Котлета", "Каша", "Кофе"}'),
-       ('Pavel', '{1, 3, 5, 6, 7}', '{"Сосиска", "Каша", "Кофе"}'),
-       ('Boris', '{1, 3, 5, 6, 7}', '{"Котлета", "Каша", "Чай"}');
-
-SELECT *
-FROM pilots;
-
--- -- выборка тех пилотов, в рационе которых есть определенный вид еды
-SELECT *
-FROM pilots
-WHERE 'Сосиска' = any (meal);
-
-DROP TABLE pilots;
-
--- -- двумерные массивы рационов
-CREATE TABLE pilots
-(
-    pilot_name text,
-    shedule    integer[],
-    meal       text[][]
-);
-
-INSERT INTO pilots
-VALUES ('Ivan', '{1, 3, 5, 6, 7}', '{
-                                    {"Сосиска", "Макароны", "Кофе"},
-                                    {"Котлета", "Каша", "Кофе"},
-                                    {"Сосиска", "Каша", "Кофе"},
-                                    {"Котлета", "Каша", "Чай"}
-                                }'::text[][]),
-       ('Petr', '{1, 2, 5, 7}', '{
-                                    {"Сосиска", "Макароны", "Кофе"},
-                                    {"Котлета", "Каша", "Кофе"},
-                                    {"Сосиска", "Каша", "Кофе"},
-                                    {"Котлета", "Каша", "Чай"}
-                                }'::text[][]),
-       ('Pavel', '{1, 3, 5, 6, 7}', '{
-                                    {"Сосиска", "Макароны", "Кофе"},
-                                    {"Котлета", "Каша", "Кофе"},
-                                    {"Сосиска", "Каша", "Кофе"},
-                                    {"Котлета", "Каша", "Чай"}
-                                }'::text[][]),
-       ('Boris', '{1, 3, 5, 6, 7}', '{
-                                    {"Сосиска", "Макароны", "Кофе"},
-                                    {"Котлета", "Каша", "Кофе"},
-                                    {"Сосиска", "Каша", "Кофе"},
-                                    {"Котлета", "Каша", "Чай"}
-                                }'::text[][]);
-
-SELECT *
-FROM pilots;
-
-UPDATE pilots
-SET shedule = '{1, 2}'::integer[]
-WHERE 3 = any (shedule);
-
-SELECT *
-FROM pilots;
-
--- Задание 34
-
-CREATE TABLE pilots_hobbies
-(
-    pilot_name text,
-    hobbies    jsonb
-);
-
-INSERT INTO pilots_hobbies
-VALUES ('Ivan',
-        '{
-          "sports": [
-            "футбол",
-            "плавание"
-          ],
-          "home_lib": true,
-          "trips": 3
-        }'),
-       ('Petr',
-        '{
-          "sports": [
-            "теннис",
-            "плавание"
-          ],
-          "home_lib": true,
-          "trips": 2
-        }'),
-       ('Pavel',
-        '{
-          "sports": [
-            "плавание"
-          ],
-          "home_lib": false,
-          "trips": 4
-        }'),
-       ('Boris',
-        '{
-          "sports": [
-            "футбол",
-            "плавание",
-            "теннис"
-          ],
-          "home_lib": true,
-          "trips": 0
-        }');
-
-SELECT *
-FROM pilots_hobbies;
-
-UPDATE pilots_hobbies
-SET hobbies = jsonb_set(hobbies, '{trips}', '10')
-WHERE pilot_name = 'Pavel';
-
--- -- выборка тех пилотов, у которых есть домашняя библиотека и
--- -- количество поездок больше 1
-SELECT pilot_name,
-       hobbies -> 'trips'    AS trips,
-       hobbies -> 'sports'   AS sports,
-       hobbies -> 'home_lib' AS have_home_library
-FROM pilots_hobbies
-WHERE (hobbies -> 'home_lib')::bool = true
-  AND (hobbies -> 'trips')::integer > 1;
-
-
-SELECT *
-FROM pilots_hobbies;
-
--- -- уменьшить количество поездок на 2 у тех пилотов, у которых нет домашней библиотеки
-UPDATE pilots_hobbies
-SET hobbies = jsonb_set(hobbies, '{trips}',
-                        to_jsonb((hobbies -> 'trips')::integer - 2)
-    )
-WHERE (hobbies -> 'home_lib')::bool = false;
-
-SELECT *
-FROM pilots_hobbies
-ORDER BY (hobbies -> 'home_lib')::bool DESC, (hobbies -> 'trips')::integer DESC;
-
--- Задание 35
-
--- -- конкатенация двух jsonb массивов
-SELECT '{"sports": "хоккей"}'::jsonb || '{"trips": 5}'::jsonb;
+-- -- пример и вертикального и горизонтального view (не все столбцы и не все строки)
+CREATE OR REPLACE VIEW airports_names AS
+    SELECT airport_code, airport_name, city
+    FROM demo.bookings.airports
+    WHERE airport_name <> city;
