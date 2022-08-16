@@ -117,7 +117,6 @@ ORDER BY count DESC;
 -- -- unnest ( anyarray ) → setof anyelement
 -- -- -- Разворачивает массив в набор строк.
 -- -- -- Элементы массива прочитываются в порядке хранения.
-
 SELECT unnest(days_of_week) AS day_of_week, count(*) AS num_flights
 FROM routes
 WHERE departure_city = 'Москва'
@@ -149,3 +148,97 @@ WHERE r.num_of_day = dw.num_of_day
 GROUP BY day_of_week
 ORDER BY day_of_week;
 
+-- Задание 13
+
+-- -- минимальные и максимальные цены билетов по направлениям
+SELECT f.departure_city, f.arrival_city, max(tf.amount), min(tf.amount)
+FROM flights_v AS f
+         LEFT JOIN ticket_flights AS tf ON f.flight_id = tf.flight_id
+GROUP BY 1, 2
+ORDER BY 1, 2;
+
+-- Задание 14
+
+-- -- частотность имен
+SELECT left(passenger_name, strpos(passenger_name, ' ') - 1) AS firstname, count(*)
+FROM tickets
+GROUP BY 1
+ORDER BY 2 DESC;
+
+-- -- частотность фамилий
+SELECT right(passenger_name, strpos(passenger_name, ' ') - 1) AS firstname, count(*)
+FROM tickets
+GROUP BY 1
+ORDER BY 2 DESC;
+
+-- Задание 15
+
+-- -- применение олконнных функций
+
+SELECT count(*) OVER (PARTITION BY flight_no), departure_airport, arrival_airport
+FROM flights;
+
+-- Задание 16
+
+-- -- Применение FILTER
+SELECT count(*) FILTER (WHERE range > 5000) AS filter_count,
+       count(*)                             AS no_filter_count
+FROM aircrafts;
+
+-- Задание 17
+
+-- -- Подсчет количества мест разной категории для каждой модели самолета
+SELECT a.aircraft_code, a.model, s.fare_conditions, count(*)
+FROM aircrafts AS a
+         JOIN seats AS s ON a.aircraft_code = s.aircraft_code
+GROUP BY a.aircraft_code, a.model, s.fare_conditions
+ORDER BY a.model, fare_conditions;
+
+-- Задание 18
+
+SELECT a.aircraft_code                                                             AS a_code,
+       a.model,
+       r.aircraft_code                                                             AS r_code,
+       count(*)                                                                    AS num_routes,
+       (count(*)::double precision / (SELECT count(*) FROM routes))::numeric(5, 3) AS frac
+FROM routes AS r
+         JOIN aircrafts AS a on r.aircraft_code = a.aircraft_code
+GROUP BY 1, 2, 3
+ORDER BY 4 DESC;
+
+-- Задание 19
+
+WITH RECURSIVE ranges (min_sum, max_sum)
+                   AS (VALUES (0, 100050),
+                              (100000, 200060),
+                              (200000, 300070)
+                       UNION ALL
+                       SELECT min_sum + 100000, max_sum + 100000
+                       FROM ranges
+                       WHERE max_sum < (SELECT max(total_amount) FROM bookings))
+SELECT *
+FROM ranges;
+
+-- -- с количеством итераций
+WITH RECURSIVE ranges (min_sum, max_sum, iteration)
+                   AS (VALUES (0, 100000, 0),
+                              (100000, 200000, 0),
+                              (200000, 300000, 0)
+                       UNION ALL
+                       SELECT min_sum + 100000, max_sum + 100000, iteration + 1
+                       FROM ranges
+                       WHERE max_sum < (SELECT max(total_amount) FROM bookings))
+SELECT *
+FROM ranges;
+
+-- -- с UNION вместо UNION ALL (удаляет все дубликаты)
+WITH RECURSIVE ranges (min_sum, max_sum)
+                   AS (VALUES (0, 100000),
+                              (100000, 200000),
+                              (200000, 300000)
+                       UNION
+                       SELECT min_sum + 100000, max_sum + 100000
+                       FROM ranges
+                       WHERE max_sum < (SELECT max(total_amount) FROM bookings))
+SELECT *
+FROM ranges;
