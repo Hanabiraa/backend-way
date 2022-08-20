@@ -242,3 +242,112 @@ WITH RECURSIVE ranges (min_sum, max_sum)
                        WHERE max_sum < (SELECT max(total_amount) FROM bookings))
 SELECT *
 FROM ranges;
+
+-- Задание 20
+
+WITH RECURSIVE ranges (min_sum, max_sum)
+                   AS (VALUES (0, 100000)
+                       UNION ALL
+                       SELECT min_sum + 100000, max_sum + 100000
+                       FROM ranges
+                       WHERE max_sum < (SELECT max(total_amount) FROM bookings))
+SELECT r.min_sum, r.max_sum, count(b.*), avg(b.total_amount)::numeric(10, 2)
+FROM bookings AS b
+         RIGHT OUTER JOIN ranges AS r
+                          ON b.total_amount >= r.min_sum AND b.total_amount < r.max_sum
+GROUP BY r.min_sum, r.max_sum
+ORDER BY r.min_sum;
+
+-- Задание 21
+
+SELECT DISTINCT a.city
+FROM airports AS a
+WHERE NOT EXISTS(
+        SELECT *
+        FROM routes AS r
+        WHERE r.departure_city = 'Москва'
+          AND r.arrival_city = a.city
+    )
+  AND a.city <> 'Москва'
+ORDER BY city;
+
+-- -- то же самое, но через множества
+
+SELECT city
+FROM airports
+WHERE city <> 'Москва'
+EXCEPT
+SELECT arrival_city
+FROM routes
+WHERE departure_city = 'Москва'
+ORDER BY city;
+
+
+-- Задание 22
+
+SELECT aa.city, aa.airport_code, aa.airport_name
+FROM (SELECT city
+      FROM airports
+      GROUP BY city
+      HAVING count(*) > 1) AS a
+         JOIN airports AS aa ON a.city = aa.city
+ORDER BY aa.city, aa.airport_name;
+
+-- Задание 23
+
+SELECT count(*)
+FROM (SELECT DISTINCT city FROM airports) AS a1
+         JOIN (SELECT DISTINCT city FROM airports) AS a2 ON a1.city <> a2.city;
+
+-- -- То же самое, но через обобщенное табличное выражение
+
+-- -- Вариант обобщенного табличеного выражения 1
+WITH table_cte (city)
+         AS (SELECT a1.city
+             FROM (SELECT DISTINCT city FROM airports) AS a1
+                      JOIN (SELECT DISTINCT city FROM airports) AS a2 ON a1.city <> a2.city)
+SELECT count(city)
+FROM table_cte;
+
+-- -- Вариант обобщенного табличного выражения 2
+WITH table_cte (city)
+         AS (SELECT DISTINCT city
+             FROM airports)
+SELECT count(*)
+FROM table_cte as a1
+         JOIN table_cte as a2 ON a1 <> a2;
+
+-- Задание 24
+WITH table_cte(total_amount_upper_avg) AS (SELECT total_amount
+                                           FROM bookings
+                                           WHERE total_amount > ALL (SELECT avg(total_amount) FROM bookings))
+SELECT (SELECT count(*) FROM bookings) AS all_rows, count(*) AS upper_avg
+FROM table_cte;
+
+-- Задание 25
+
+WITH ticket_seats AS
+         (SELECT f.flight_id,
+                 f.flight_no,
+                 f.departure_city,
+                 f.arrival_city,
+                 f.aircraft_code,
+                 count(tf.ticket_no)                       AS fact_passengers,
+                 (SELECT count(s.seat_no)
+                  FROM seats AS s
+                  WHERE s.aircraft_code = f.aircraft_code) AS total_seats
+          FROM flights_v AS f
+                   JOIN ticket_flights AS tf ON f.flight_id = tf.flight_id
+          WHERE f.status = 'Arrived'
+          GROUP BY 1, 2, 3, 4, 5)
+SELECT ts.departure_city,
+       ts.arrival_city,
+       sum(ts.fact_passengers)                                                   AS sum_pass,
+       sum(ts.total_seats)                                                       AS sum_seats,
+       round(sum(ts.fact_passengers)::numeric / sum(ts.total_seats)::numeric, 2) AS frac
+FROM ticket_seats AS ts
+GROUP BY ts.departure_city, ts.arrival_city
+ORDER BY ts.departure_city;
+
+
+-- -- Как и прошлый подзапрос, но с разделением на классы обсулживания
