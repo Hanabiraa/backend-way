@@ -351,3 +351,57 @@ ORDER BY ts.departure_city;
 
 
 -- -- Как и прошлый подзапрос, но с разделением на классы обсулживания
+WITH ticket_seats AS
+         (SELECT f.flight_id,
+                 f.flight_no,
+                 f.departure_city,
+                 f.arrival_city,
+                 f.aircraft_code,
+                 count(tf.ticket_no)                                                            AS fact_passengers,
+                 (SELECT count(s.seat_no)
+                  FROM seats AS s
+                  WHERE s.aircraft_code = f.aircraft_code)                                      AS total_seats,
+                 (SELECT count(s.seat_no)
+                  FROM seats AS s
+                  WHERE s.aircraft_code = f.aircraft_code
+                    AND s.fare_conditions = 'Business')                                         AS business_seats,
+                 (SELECT count(s.seat_no)
+                  FROM seats AS s
+                  WHERE s.aircraft_code = f.aircraft_code
+                    AND s.fare_conditions = 'Comfort')                                          AS comfort_seats,
+                 (SELECT count(s.seat_no)
+                  FROM seats AS s
+                  WHERE s.aircraft_code = f.aircraft_code
+                    AND s.fare_conditions = 'Economy')                                          AS economy_seats,
+                 count(tf.ticket_no)
+                 FILTER ( WHERE tf.fare_conditions = 'Business' AND f.flight_id = tf.flight_id) AS business_fact_pass,
+                 count(tf.ticket_no)
+                 FILTER ( WHERE tf.fare_conditions = 'Comfort' AND f.flight_id = tf.flight_id)  AS comfort_fact_pass,
+                 count(tf.ticket_no)
+                 FILTER ( WHERE tf.fare_conditions = 'Economy' AND f.flight_id = tf.flight_id)  AS economy_fact_pass
+          FROM flights_v AS f
+                   JOIN ticket_flights AS tf ON f.flight_id = tf.flight_id
+          WHERE f.status = 'Arrived'
+          GROUP BY 1, 2, 3, 4, 5)
+SELECT ts.departure_city,
+       ts.arrival_city,
+       sum(ts.fact_passengers)    AS sum_pass,
+       sum(ts.total_seats)        AS sum_seats,
+       sum(ts.business_seats)     AS sum_business_seats,
+       sum(ts.comfort_seats)      AS sum_comfort_seats,
+       sum(ts.economy_seats)      AS sum_economy_seats,
+       sum(ts.business_fact_pass) AS sum_business_pass,
+       sum(ts.comfort_fact_pass)  AS sum_comfort_pass,
+       sum(ts.economy_fact_pass)  AS sum_economy_pass,
+       coalesce(round(sum(ts.fact_passengers)::numeric / sum(ts.total_seats)::numeric, 2),
+                0)                AS frac_all,
+       coalesce(round(sum(ts.business_fact_pass)::numeric / NULLIF(sum(ts.business_seats)::numeric, 0), 2),
+                0)                AS frac_buss,
+       coalesce(round(sum(ts.comfort_fact_pass)::numeric / NULLIF(sum(ts.comfort_seats)::numeric, 0), 2),
+                0)                AS frac_comf,
+       coalesce(round(sum(ts.economy_fact_pass)::numeric / NULLIF(sum(ts.economy_seats)::numeric, 0), 2),
+                0)                AS frac_eco
+FROM ticket_seats AS ts
+GROUP BY ts.departure_city, ts.arrival_city
+ORDER BY ts.departure_city;
+
