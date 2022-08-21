@@ -405,3 +405,87 @@ FROM ticket_seats AS ts
 GROUP BY ts.departure_city, ts.arrival_city
 ORDER BY ts.departure_city;
 
+-- Задание 26
+
+SELECT *
+FROM flights_v
+WHERE departure_city = 'Кемерово'
+  AND arrival_city = 'Москва'
+  AND actual_arrival < bookings.now();
+
+SELECT t.passenger_name, b.seat_no
+FROM (
+         ticket_flights AS tf
+             JOIN tickets AS t on tf.ticket_no = t.ticket_no
+         )
+         JOIN boarding_passes AS b
+              ON tf.ticket_no = b.ticket_no
+                  AND tf.flight_id = b.flight_id
+WHERE tf.flight_id = 54759
+ORDER BY t.passenger_name;
+
+SELECT t.passenger_name,
+       substr(t.passenger_name, strpos(t.passenger_name, ' ') + 1) AS lastname,
+       left(t.passenger_name, strpos(t.passenger_name, ' ') - 1)   AS firstname,
+       b.seat_no
+FROM (
+         ticket_flights AS tf
+             JOIN tickets AS t on tf.ticket_no = t.ticket_no
+         )
+         JOIN boarding_passes AS b
+              ON tf.ticket_no = b.ticket_no
+                  AND tf.flight_id = b.flight_id
+WHERE tf.flight_id = 54759
+ORDER BY 2, 3;
+
+SELECT s.seat_no, p.passenger_name
+FROM seats AS s
+         LEFT OUTER JOIN (SELECT t.passenger_name, b.seat_no
+                          FROM (
+                                   ticket_flights AS tf
+                                       JOIN tickets AS t on tf.ticket_no = t.ticket_no
+                                   )
+                                   JOIN boarding_passes AS b
+                                        ON tf.ticket_no = b.ticket_no
+                                            AND tf.flight_id = b.flight_id
+                          WHERE tf.flight_id = 54759
+                          ORDER BY t.passenger_name) AS p
+                         ON s.seat_no = p.seat_no
+WHERE s.aircraft_code = 'SU9'
+ORDER BY seat_no;
+
+SELECT s.seat_no, p.passenger_name, p.email
+FROM seats AS s
+         LEFT OUTER JOIN (SELECT t.passenger_name, b.seat_no, t.contact_data -> 'email' AS email
+                          FROM (
+                                   ticket_flights AS tf
+                                       JOIN tickets AS t on tf.ticket_no = t.ticket_no
+                                   )
+                                   JOIN boarding_passes AS b
+                                        ON tf.ticket_no = b.ticket_no
+                                            AND tf.flight_id = b.flight_id
+                          WHERE tf.flight_id = 54759
+                          ORDER BY t.passenger_name) AS p
+                         ON s.seat_no = p.seat_no
+WHERE s.aircraft_code = 'SU9'
+ORDER BY left(s.seat_no, length(s.seat_no) - 1)::integer,
+         right(s.seat_no, 1);
+
+WITH passengers (seat_no, passenger_name, email)
+         AS (SELECT b.seat_no, t.passenger_name, t.contact_data -> 'email'
+             FROM (
+                      ticket_flights AS tf
+                          JOIN tickets AS t on tf.ticket_no = t.ticket_no
+                      )
+                      JOIN boarding_passes AS b
+                           ON tf.ticket_no = b.ticket_no
+                               AND tf.flight_id = b.flight_id
+             WHERE tf.flight_id = 54759
+             ORDER BY t.passenger_name)
+SELECT s.seat_no, s.fare_conditions, p.passenger_name, p.email
+FROM seats AS s
+         LEFT OUTER JOIN passengers AS p
+                         ON s.seat_no = p.seat_no
+WHERE s.aircraft_code = 'SU9'
+ORDER BY left(s.seat_no, length(s.seat_no) - 1)::integer,
+         right(s.seat_no, 1);
