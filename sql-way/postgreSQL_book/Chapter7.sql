@@ -267,4 +267,45 @@ FROM mod_row;
 SELECT *
 FROM aircrafts_tmp;
 
-SELECT * FROM aircrafts_log;
+SELECT *
+FROM aircrafts_log;
+
+
+-- Задание 8
+
+SELECT flight_no, flight_id, departure_city, arrival_city, scheduled_departure
+FROM flights_v
+WHERE scheduled_departure BETWEEN bookings.now() AND bookings.now() + INTERVAL '15 days'
+  AND (departure_city, arrival_city) IN
+      (
+       ('Красноярск', 'Москва'),
+       ('Москва', 'Сочи'),
+       ('Сочи', 'Москва'),
+       ('Сочи', 'Красноярск')
+          )
+ORDER BY departure_city, arrival_city, scheduled_departure;
+
+WITH sell_tickets AS
+         (INSERT INTO ticket_flights_tmp
+             (ticket_no, flight_id, fare_conditions, amount) VALUES ('1234567890123', 13829, 'Economy', 10500),
+                                                                    ('1234567890123', 4728, 'Economy', 3400),
+                                                                    ('1234567890123', 30523, 'Economy', 3400),
+                                                                    ('1234567890123', 7757, 'Economy', 3400),
+                                                                    ('1234567890123', 30829, 'Economy', 12800)
+             RETURNING *)
+UPDATE tickets_directions AS td
+SET last_ticket_time = current_timestamp,
+    tickets_num      = tickets_num + (SELECT count(*)
+                                      FROM sell_tickets AS st,
+                                           flights_v AS f
+                                      WHERE st.flight_id = f.flight_id
+                                        AND f.departure_city = td.departure_city
+                                        AND f.arrival_city = td.arrival_city)
+WHERE (td.departure_city, td.arrival_city) IN
+      (SELECT departure_city, arrival_city
+       FROM flights_v
+       WHERE flight_id IN (SELECT flight_id FROM sell_tickets));
+
+SELECT * FROM ticket_flights_tmp;
+SELECT * FROM tickets_directions;
+
