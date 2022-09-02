@@ -46,8 +46,7 @@ WHERE fare_conditions = 'Business'; -- 60 мс
 
 SELECT count(*)
 FROM ticket_flights
-WHERE fare_conditions = 'Economy';
--- 226 мс
+WHERE fare_conditions = 'Economy'; -- 226 мс
 
 -- -- Плохая селективность ведет к проблемам
 
