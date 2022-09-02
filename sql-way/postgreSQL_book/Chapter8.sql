@@ -8,8 +8,7 @@ ALTER TABLE tickets_tmp
 
 SELECT count(*)
 FROM tickets_tmp
-WHERE passenger_name = 'IVAN IVANOV';
--- 77 мс
+WHERE passenger_name = 'IVAN IVANOV'; -- 77 мс
 
 -- Добавление индекса
 CREATE INDEX passenger_name_idx ON tickets_tmp (passenger_name)
@@ -17,8 +16,7 @@ CREATE INDEX passenger_name_idx ON tickets_tmp (passenger_name)
 
 SELECT count(*)
 FROM tickets_tmp
-WHERE passenger_name = 'IVAN IVANOV';
--- 20 мс
+WHERE passenger_name = 'IVAN IVANOV'; -- 20 мс
 
 -- Задание 3
 
