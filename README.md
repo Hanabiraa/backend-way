@@ -78,7 +78,7 @@ print(stack.jsonify())
 #### Books
 | Title | Author | Status |
 | --- | :---: | :---: |
-| [DS & Algorithms (Online book)](https://www.programiz.com/dsa) | Programiz | To Do |
+| [DS & Algorithms (Online book)](https://www.programiz.com/dsa) | Programiz | **Completed** |
 | Грокаем алгоритмы | Бхаргава Адитья | **Completed** |
 | Алгоритмы. Руководство по разработке | Стивен Скиена | To Do |
 
@@ -87,7 +87,7 @@ print(stack.jsonify())
 #### Books
 | Title | Author | Status |
 | --- | :---: | :---: |
-| PostgreSQL. Основы языка SQL | Е.П. Моргунов | To Do  |
+| PostgreSQL. Основы языка SQL | Е.П. Моргунов | **Completed**  |
 
 > ### Other
 
