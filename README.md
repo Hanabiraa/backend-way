@@ -41,6 +41,8 @@ print(stack.jsonify())
 
 > python-way - to study algorithms and data structures, as well as tasks and interesting features of syntax
 
+> django-way - to study Django, DRF
+
 > frontend-way - to study on beginning level html/css, js and other frontend  frameworks
 
 > sql-way - to study SQL syntax/dialects and various DBMS (Database Management System)
