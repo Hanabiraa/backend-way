@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="post-entry">
+    {% comment %}
+    <h2>{{post.title}}</h2>
+    <p>{{post.body}}</p> 
+    {% endcomment %}
+
+    {% comment %} можно не указывать именно имя модели, а использовать универсальное имя object {% endcomment %}
+    <h2>{{object.title}}</h2>
+    <p>{{object.body}}</p>
+</div>
+{% endblock content %}
