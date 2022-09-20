@@ -10,5 +10,8 @@
     {% comment %} можно не указывать именно имя модели, а использовать универсальное имя object {% endcomment %}
     <h2>{{object.title}}</h2>
     <p>{{object.body}}</p>
+
+    <p><a href="{% url 'post_edit' object.pk %}">+ Edit Blog Post</a></p>
+    <p><a href="{% url 'post_delete' object.pk %}">+ Delete Blog Post</a></p>
 </div>
 {% endblock content %}

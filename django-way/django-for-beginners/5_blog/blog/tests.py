@@ -36,16 +36,48 @@ class BlogTests(TestCase):
 
     def test_post_list_view(self):
         resp = self.client.get(reverse('home'))
-        
+
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'Nice body content')
         self.assertTemplateUsed(resp, 'home.html')
 
     def test_post_detail_view(self):
-        resp = self.client.get(reverse('post_detail', kwargs={'pk': self.post.pk}))
+        resp = self.client.get(
+            reverse('post_detail', kwargs={'pk': self.post.pk}))
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'A good title')
         self.assertTemplateUsed(resp, 'post_detail.html')
-        
+
         no_resp = self.client.get('/post/1111100/')
         self.assertEqual(no_resp.status_code, 404)
+
+    def test_post_create_view(self):
+        resp = self.client.post(
+            reverse('post_new'),
+            {
+                'title': 'New title',
+                'body': 'New text',
+                'author': self.user.id
+            },
+        )
+        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(resp.object.last().title, 'New title')
+        self.assertEqual(resp.object.last().body, 'New text')
+
+    def test_post_update_view(self):
+        resp = self.client.post(
+            reverse('post_edit', args='1'),
+            {
+                'title': 'Updated title',
+                'body': 'Updated text',
+            },
+        )
+        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(resp.object.last().title, 'Updated title')
+        self.assertEqual(resp.object.last().body, 'Updated text')
+
+    def test_post_delete_view(self):
+        resp = self.client.post(
+            reverse('post_delete', args='1')
+        )
+        self.assertEqual(resp.status_code, 302)
