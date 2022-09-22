@@ -61,8 +61,8 @@ class BlogTests(TestCase):
             },
         )
         self.assertEqual(resp.status_code, 302)
-        self.assertEqual(resp.object.last().title, 'New title')
-        self.assertEqual(resp.object.last().body, 'New text')
+        self.assertEqual(Post.objects.last().title, 'New title')
+        self.assertEqual(Post.objects.last().body, 'New text')
 
     def test_post_update_view(self):
         resp = self.client.post(
@@ -73,8 +73,8 @@ class BlogTests(TestCase):
             },
         )
         self.assertEqual(resp.status_code, 302)
-        self.assertEqual(resp.object.last().title, 'Updated title')
-        self.assertEqual(resp.object.last().body, 'Updated text')
+        self.assertEqual(Post.objects.last().title, 'Updated title')
+        self.assertEqual(Post.objects.last().body, 'Updated text')
 
     def test_post_delete_view(self):
         resp = self.client.post(

@@ -8,4 +8,4 @@
 
 > messageBoard - app developed in chapter 4
 
-> blog - app developed in chapter 5, 6
+> blog - app developed in chapter 5, 6, 7
