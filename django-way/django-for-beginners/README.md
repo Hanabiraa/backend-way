@@ -9,3 +9,5 @@
 > messageBoard - app developed in chapter 4
 
 > blog - app developed in chapter 5, 6, 7
+
+> news - app developed in chapter 8, 9, 10, 12
