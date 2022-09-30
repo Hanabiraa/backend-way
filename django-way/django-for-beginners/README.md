@@ -10,4 +10,4 @@
 
 > blog - app developed in chapter 5, 6, 7
 
-> news - app developed in chapter 8, 9, 10, 12
+> news - app developed in chapter 8, 9, 10, 12, 13, 14, 15, 16
