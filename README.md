@@ -68,6 +68,7 @@ print(stack.jsonify())
 | --- | :---: | :---: |
 | Изучаем Python. Том 1 | Лутц Марк| **Completed** |
 | Изучаем Python. Том 2 | Лутц Марк| **Completed** |
+| [The Ultimate FastAPI Tutorial](https://christophergs.com/tutorials/ultimate-fastapi-tutorial-pt-1-hello-world/) | Christopher Samiullah | **Completed** |
 
 
 > ### Algorithms & Data Structures
