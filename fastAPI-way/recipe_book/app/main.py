@@ -1,26 +1,9 @@
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI, APIRouter, Query
+
 from typing import Optional
 
-RECIPES = [
-    {
-        "id": 1,
-        "label": "Chicken Vesuvio",
-        "source": "Serious Eats",
-        "url": "http://www.seriouseats.com/recipes/2011/12/chicken-vesuvio-recipe.html",
-    },
-    {
-        "id": 2,
-        "label": "Chicken Paprikash",
-        "source": "No Recipes",
-        "url": "http://norecipes.com/recipe/chicken-paprikash/",
-    },
-    {
-        "id": 3,
-        "label": "Cauliflower and Tofu Curry Recipe",
-        "source": "Serious Eats",
-        "url": "http://www.seriouseats.com/recipes/2011/02/cauliflower-and-tofu-curry-recipe.html",
-    },
-]
+from app.schemas import RecipeSearchResults, RecipeCreate, Recipe
+from app.recipe_data import RECIPES
 
 app = FastAPI(title="Recipe API", openapi_url="/openapi.json")
 
@@ -35,7 +18,7 @@ def root() -> dict:
     return {"msg": "Hello, World!"}
 
 
-@api_router.get("/recipe/{recipe_id}", status_code=200)
+@api_router.get("/recipe/{recipe_id}", status_code=200, response_model=Recipe)
 def fetch_recipe(*, recipe_id: int) -> dict:
     """
     Fetch single recipe by ID
@@ -45,9 +28,11 @@ def fetch_recipe(*, recipe_id: int) -> dict:
         return result[0]
 
 
-@api_router.get("/search/", status_code=200)
+@api_router.get("/search/", status_code=200, response_model=RecipeSearchResults)
 def search_recipes(
-        keyword: Optional[str] = None, max_results: Optional[int] = 10
+        *,
+        keyword: Optional[str] = Query(None, min_length=3, example="chicken"),
+        max_results: Optional[int] = 10
 ) -> dict:
     """
     Search for recipes based on label keyword
@@ -58,6 +43,20 @@ def search_recipes(
     result = filter(lambda recipe: keyword.lower() in recipe["label"].lower(), RECIPES)
     return {"results": list(result)[:max_results]}
 
+@api_router.post("/recipe/", status_code=201, response_model=Recipe)
+def create_recipe(*, recipe_in: RecipeCreate) -> dict:
+    """
+    Create a new recipe
+    """
+    new_entry_id = len(RECIPES) + 1
+    recipe_entry = Recipe(
+        id=new_entry_id,
+        label=recipe_in.label,
+        source=recipe_in.source,
+        url=recipe_in.url
+    ).dict()
+    RECIPES.append(recipe_entry)
+    return recipe_entry
 
 app.include_router(api_router)
 
