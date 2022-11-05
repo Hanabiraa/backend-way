@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter, Query
+from fastapi import FastAPI, APIRouter, Query, HTTPException
 
 from typing import Optional
 
@@ -24,8 +24,13 @@ def fetch_recipe(*, recipe_id: int) -> dict:
     Fetch single recipe by ID
     """
     result = [recipe for recipe in RECIPES if recipe["id"] == recipe_id]
-    if result:
-        return result[0]
+    if not result:
+        # the exception is raised, not returned - you will get a validation
+        # error otherwise.
+        raise HTTPException(
+            status_code=404, detail=f"Recipe with ID {recipe_id} not found!"
+        )
+    return result[0]
 
 
 @api_router.get("/search/", status_code=200, response_model=RecipeSearchResults)
@@ -43,6 +48,7 @@ def search_recipes(
     result = filter(lambda recipe: keyword.lower() in recipe["label"].lower(), RECIPES)
     return {"results": list(result)[:max_results]}
 
+
 @api_router.post("/recipe/", status_code=201, response_model=Recipe)
 def create_recipe(*, recipe_in: RecipeCreate) -> dict:
     """
@@ -57,6 +63,7 @@ def create_recipe(*, recipe_in: RecipeCreate) -> dict:
     ).dict()
     RECIPES.append(recipe_entry)
     return recipe_entry
+
 
 app.include_router(api_router)
 
