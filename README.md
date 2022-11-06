@@ -1,6 +1,6 @@
 # 🤖🤖🤖 My backend-way 🤖🤖🤖
 
-## Repository where I learn django, python and and follow these roadmaps: 
+## Repository where I learn django, python and follow these roadmaps: 
 ### 1) [Backend roadmap](https://roadmap.sh/backend)
 ### 2) [Python roadmap](https://roadmap.sh/python)
 
