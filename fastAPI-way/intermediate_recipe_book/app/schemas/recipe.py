@@ -17,6 +17,11 @@ class RecipeCreate(RecipeBase):
 
 
 class RecipeUpdate(RecipeBase):
+    id: int
+
+
+class RecipeUpdateRestricted(BaseModel):
+    id: int
     label: str
 
 
@@ -34,7 +39,7 @@ class Recipe(RecipeInDBBase):
     pass
 
 
-# Properties properties stored in DB
+# Properties stored in DB
 class RecipeInDB(RecipeInDBBase):
     pass
 
