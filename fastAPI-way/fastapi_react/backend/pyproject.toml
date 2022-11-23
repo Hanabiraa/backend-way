@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "backend"
+version = "0.0.1"
+description = ""
+authors = ["Hanabiraa <workflow.elec@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+uvicorn = "~0.17.6"
+fastapi = "~0.78.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
