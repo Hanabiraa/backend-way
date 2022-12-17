@@ -11,18 +11,17 @@
 
 ```python3
 ​
-from __future__ import annotations
-
+from typing import Tuple
 import json
 from dataclasses import asdict, dataclass
 
 
 @dataclass
 class FutureStack:
-    languages: tuple[str, ...] = ("Python", "HTML5", "CSS")
-    databases: tuple[str, ...] = ("PostgreSQL")
-    misc     : tuple[str, ...] = ("Docker")
-    ongoing  : tuple[str, ...] = ("Django", "DRF")
+    languages: Tuple[str, ...] = ("Python", "HTML5", "CSS")
+    databases: Tuple[str, ...] = ("PostgreSQL")
+    misc     : Tuple[str, ...] = ("Docker")
+    ongoing  : Tuple[str, ...] = ("Django", "DRF")
 
     def jsonify(self) -> str:
         return json.dumps(asdict(self), indent=4)
