@@ -41,6 +41,8 @@ print(stack.jsonify())
 > python-way - to study algorithms and data structures, as well as tasks and interesting features of syntax
 
 > django-way - to study Django, DRF
+ 
+> fastAPI-way - to study FastAPI, Celery with fastAPI and etc
 
 > frontend-way - to study on beginning level html/css, js and other frontend  frameworks
 
@@ -61,13 +63,16 @@ print(stack.jsonify())
 | [Kaggle](https://www.kaggle.com/learn/pandas) | Pandas | **Completed** |
 | [Kaggle](https://www.kaggle.com/learn/data-visualization) | Data Visualization | **Completed** |
 | [Kaggle](https://www.kaggle.com/learn/data-cleaning) | Data Cleaning | **Completed** |
-
+| [testdriven.io](https://testdriven.io/blog/fastapi-react/) | Developing a Single Page App with FastAPI and React | **Completed** |
+| [testdriven.io](https://testdriven.io/courses/fastapi-celery/intro/) | The Definitive Guide to Celery and FastAPI | **Completed** |
 #### Books
 | Title | Author | Status |
 | --- | :---: | :---: |
-| Изучаем Python. Том 1 | Лутц Марк| **Completed** |
-| Изучаем Python. Том 2 | Лутц Марк| **Completed** |
+| Изучаем Python. Том 1 | Лутц Марк | **Completed** |
+| Изучаем Python. Том 2 | Лутц Марк | **Completed** |
+| Django for beginners | William Vincent | **Completed** |
 | [The Ultimate FastAPI Tutorial](https://christophergs.com/tutorials/ultimate-fastapi-tutorial-pt-1-hello-world/) | Christopher Samiullah | **Completed** |
+| [How to use server-sent events (SSE) with FastAPI?](https://devdojo.com/bobbyiliev/how-to-use-server-sent-events-sse-with-fastapi) | Bobby Iliev | **Completed** |
 
 
 > ### Algorithms & Data Structures
@@ -93,7 +98,8 @@ print(stack.jsonify())
 
 > ### Other
 
-#### Books (Coming soon)
+#### Books
 | Title | Author | Status |
 | --- | :---: | :---: |
 | [html & css is hard](https://www.internetingishard.com/html-and-css/)| Oliver James | **Completed** |
+| [reactjs.org](https://reactjs.org/tutorial/tutorial.html#before-we-start-the-tutorial) | Tutorial: Intro to React | **Completed** |
