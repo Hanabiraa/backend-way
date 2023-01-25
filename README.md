@@ -102,4 +102,7 @@ print(stack.jsonify())
 | Title | Author | Status |
 | --- | :---: | :---: |
 | [html & css is hard](https://www.internetingishard.com/html-and-css/)| Oliver James | **Completed** |
-| [reactjs.org](https://reactjs.org/tutorial/tutorial.html#before-we-start-the-tutorial) | Tutorial: Intro to React | **Completed** |
+| [Tutorial: Intro to React](https://reactjs.org/tutorial/tutorial.html#before-we-start-the-tutorial) | React official docs | **Completed** |
+| [Docker for beginners](https://testdriven.io/blog/docker-for-beginners/) | [testdriven.io user](https://testdriven.io/authors/girllovestocode/) | **Completed** |
+| [Try docker-compose](https://docs.docker.com/compose/gettingstarted/) | Official docker docs | **Completed** |
+| [Docker best practices](https://testdriven.io/blog/docker-best-practices/) | [testdriven.io user](https://testdriven.io/authors/shaji/) | **Completed** |
