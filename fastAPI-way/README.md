@@ -9,5 +9,3 @@
 > fastapi_react - project to the `Developing a Single Page App with FastAPI and React` [link](https://testdriven.io/blog/fastapi-react/)
 
 > fastapi_sse - project to the `How to use server-sent events (SSE) with FastAPI?` [link](https://devdojo.com/bobbyiliev/how-to-use-server-sent-events-sse-with-fastapi/)
-
-> fastapi_celery_guide - project to the `The Definitive Guide to Celery and FastAPI` [link](hhttps://testdriven.io/courses/fastapi-celery/intro/)
