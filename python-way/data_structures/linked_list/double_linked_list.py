@@ -5,7 +5,7 @@ class WrongPosition(Exception):
     pass
 
 
-class _Node():
+class _Node:
     """
     Node builder for DoubleLinkedList implementation
     """
@@ -16,7 +16,7 @@ class _Node():
         self.prev = None
 
 
-class DoubleLinkedList():
+class DoubleLinkedList:
     """
     My implementation of double linked list structure
 
@@ -73,8 +73,7 @@ class DoubleLinkedList():
         for _ in range(pos):
             tmp = tmp.next
             if not tmp:
-                raise WrongPosition(
-                    "the specified position is outside the list")
+                raise WrongPosition("the specified position is outside the list")
 
         new_node = _Node(data)
         if tmp.next:
@@ -102,7 +101,7 @@ class DoubleLinkedList():
             return self.remove_left
 
         del_node = self.head
-            
+
         while del_node.next:
             del_node = del_node.next
         del_node.prev.next = None
@@ -113,10 +112,10 @@ class DoubleLinkedList():
     def remove_after(self, prev_node: _Node) -> Any:
         if not prev_node:
             return self.remove_left()
-        
+
         if not prev_node.next:
             raise ValueError("No delete after")
-        
+
         del_node = prev_node.next
         prev_node.next = del_node.next
         if after_node := del_node.next:
