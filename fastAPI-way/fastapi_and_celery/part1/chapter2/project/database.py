@@ -1,9 +1,13 @@
 from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
 from project.config import settings
 
-# from sqlalchemy.ext.declarative import declarative_base
-# from sqlalchemy.orm import sessionmaker
+engine = create_engine(
+    settings.DATABASE_URL, connect_args=settings.DATABASE_CONNECT_DICT
+)
 
+SessionLocal = sessionmaker(autoflush=True, bind=engine)
 
-!engine = create_engine(settings)
+Base = declarative_base()

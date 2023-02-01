@@ -1,3 +1,4 @@
-from . import create_app
+from project import create_app
 
 app = create_app()
+celery = app.celery_app # noqa
