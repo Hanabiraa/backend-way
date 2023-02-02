@@ -11,3 +11,5 @@
 > fastapi_sse - project to the `How to use server-sent events (SSE) with FastAPI?` [link](https://devdojo.com/bobbyiliev/how-to-use-server-sent-events-sse-with-fastapi/)
 
 > fastapi_and_celery - project to the `The Definitive Guide to Celery and FastAPI` [link](hhttps://testdriven.io/courses/fastapi-celery/intro/)
+
+> fastapi_docker_container_hot_reload - to investigate and fix a bug with watchfiles and docker-compose when using fastapi and uvicorn
