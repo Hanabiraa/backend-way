@@ -1,0 +1,16 @@
+version: '3.7'
+services:
+  server:
+    container_name: server
+    build:
+      context: .
+      dockerfile: hot_reload_dockerfile.Dockerfile
+    user: root
+    volumes:
+      - ./src:/usr/src
+    ports:
+      - "8008:8008"
+    environment:
+      - PORT=8008
+      - WATCHFILES_FORCE_POLLING=true
+    entrypoint: /start-reload.sh
