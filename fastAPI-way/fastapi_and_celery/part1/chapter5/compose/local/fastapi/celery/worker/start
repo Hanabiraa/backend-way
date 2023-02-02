@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+
+# --filter python tells watchfiles to only watch py files.
+# 'celery -A main.celery worker --loglevel=info' is the command we want watchfiles to run
+# By default, watchfiles will watch the current directory and all subdirectories
+watchfiles \
+  --filter python \
+  'celery -A main.celery worker --loglevel=info'
