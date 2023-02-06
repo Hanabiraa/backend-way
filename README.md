@@ -6,32 +6,26 @@
 
 ***
 
-<!-- Zero width character is used to put extra blank lines before and after code -->
-<h3>
-
-```python3
-​
+```python
 from typing import Tuple
+
 import json
 from dataclasses import asdict, dataclass
 
-
 @dataclass
-class FutureStack:
-    languages: Tuple[str, ...] = ("Python", "HTML5", "CSS")
-    databases: Tuple[str, ...] = ("PostgreSQL")
-    misc     : Tuple[str, ...] = ("Docker")
-    ongoing  : Tuple[str, ...] = ("Django", "DRF")
+class Hanabiraa:
+    languages: Tuple[str, ...] = ("Python" , "SQL", "HTML5", "CSS", "JS")
+    databases: Tuple[str, ...] = ("SQLite", "PostgreSQL", "Redis", "RabbitMQ")
+    web_frameworks: Tuple[str, ...] = ("FastAPI", "Django", "React")
+    misc: Tuple[str, ...] = ("Docker", "Docker Compose", "Celery")
+    ongoing  : Tuple[str, ...] = ("DRF", "DS and algorithms", "Goolang")
 
     def jsonify(self) -> str:
         return json.dumps(asdict(self), indent=4)
 
-
-stack = FutureStack()
-print(stack.jsonify())
-​
+hanabiraa_stack = Hanabiraa()
+print(hanabiraa_stack.jsonify())
 ```
-</h3>
 
 ***
 
