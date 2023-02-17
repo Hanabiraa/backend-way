@@ -50,8 +50,8 @@ print(hanabiraa_stack.jsonify())
 #### Courses
 | URL | Title | Status |
 | :---: | --- | :---: |
-| [Stepic](https://stepik.org/course/67/promo) |Программирование на Python| **Completed** |
-| [Stepic](https://stepik.org/course/512/promo) | Python: основы и применение | **Completed** |
+| [Stepik](https://stepik.org/course/67/promo) |Программирование на Python| **Completed** |
+| [Stepik](https://stepik.org/course/512/promo) | Python: основы и применение | **Completed** |
 | [Coursera](https://www.coursera.org/learn/mathematics-and-python)|Математика и Python для анализа данных| **Completed** |
 | [Kaggle](https://www.kaggle.com/learn/python) | Python | **Completed** |
 | [Kaggle](https://www.kaggle.com/learn/pandas) | Pandas | **Completed** |
@@ -73,8 +73,8 @@ print(hanabiraa_stack.jsonify())
 #### Courses
 | URL | Title | Status |
 | :---: | --- | :---: |
-| [Stepic](https://stepik.org/course/217/promo) |Алгоритмы: теория и практика. Методы| To Do |
-| [Stepic](https://stepik.org/course/1547/promo) | Алгоритмы: теория и практика. Структуры данных | To Do |
+| [Stepik](https://stepik.org/course/217/promo) |Алгоритмы: теория и практика. Методы| To Do |
+| [Stepik](https://stepik.org/course/1547/promo) | Алгоритмы: теория и практика. Структуры данных | To Do |
 
 #### Books
 | Title | Author | Status |
