@@ -49,11 +49,39 @@ Graphs are commonly represented in two ways:
         For a graph with millions of vertices, this can mean a lot of saved space.
 """
 
+
 class GraphAdjacencyMatrix:
     def __init__(self, count_nodes):
-        self.adj_matrix = [
-            [0] * count_nodes for _ in range(count_nodes)
-        ]
+        self.adj_matrix = [[0] * count_nodes for _ in range(count_nodes)]
         self.size = count_nodes
 
-    
+    def add_edge(self, v1, v2):
+        if v1 == v2:
+            print(f"same vertex {v1} and {v2}")
+        self.adj_matrix[v1][v2] = self.adj_matrix[v2][v1] = 1
+
+    def remove_edge(self, v1, v2):
+        if self.adj_matrix[v1][v2] == 0:
+            print(f"not edge between {v1} and {v2}")
+            return
+        self.adj_matrix[v1][v2] = self.adj_matrix[v2][v1] = 0
+
+    def __len__(self):
+        return self.size
+
+    def __str__(self):
+        result = []
+        for row in self.adj_matrix:
+            result.append("  ".join(map(str, row)))
+        return "\n".join(result)
+
+
+if __name__ == "__main__":
+    g = GraphAdjacencyMatrix(5)
+    g.add_edge(0, 1)
+    g.add_edge(0, 2)
+    g.add_edge(1, 2)
+    g.add_edge(2, 0)
+    g.add_edge(2, 3)
+
+    print("adjacency matrix:", g, sep="\n")
