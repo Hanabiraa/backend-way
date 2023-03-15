@@ -135,3 +135,8 @@ frontend-way/html_css/.DS_Store
 .DS_Store
 */.DS_Store
 *.DS_Store
+fastAPI-way/fastapi_and_celery/part2/chapter3/test.db
+fastAPI-way/fastapi_and_celery/part2/chapter4/test.db
+fastAPI-way/fastapi_and_celery/part2/chapter5/test.db
+fastAPI-way/fastapi_and_celery/part2/chapter6/test.db
+fastAPI-way/fastapi_and_celery/part2/chapter7/test.db
