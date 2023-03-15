@@ -18,7 +18,7 @@ class Hanabiraa:
     databases: Tuple[str, ...] = ("SQLite", "PostgreSQL", "Redis", "RabbitMQ")
     web_frameworks: Tuple[str, ...] = ("FastAPI", "Django", "React")
     misc: Tuple[str, ...] = ("Docker", "Docker Compose", "Celery")
-    ongoing  : Tuple[str, ...] = ("DRF", "DS and algorithms", "Goolang")
+    ongoing  : Tuple[str, ...] = ("Django", "DRF", "DS and algorithms", "Goolang")
 
     def jsonify(self) -> str:
         return json.dumps(asdict(self), indent=4)
@@ -67,7 +67,7 @@ print(hanabiraa_stack.jsonify())
 | Django for beginners | William Vincent | **Completed** |
 | [The Ultimate FastAPI Tutorial](https://christophergs.com/tutorials/ultimate-fastapi-tutorial-pt-1-hello-world/) | Christopher Samiullah | **Completed** |
 | [How to use server-sent events (SSE) with FastAPI?](https://devdojo.com/bobbyiliev/how-to-use-server-sent-events-sse-with-fastapi) | Bobby Iliev | **Completed** |
-
+| Lightweight Django using REST, websockets & backbone | Julia Elman & Mark Lavin | To Do |
 
 > ### Algorithms & Data Structures
 #### Courses
