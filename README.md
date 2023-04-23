@@ -16,9 +16,9 @@ from dataclasses import asdict, dataclass
 class Hanabiraa:
     languages: Tuple[str, ...] = ("Python" , "SQL", "HTML5", "CSS", "JS")
     databases: Tuple[str, ...] = ("SQLite", "PostgreSQL", "Redis", "RabbitMQ")
-    web_frameworks: Tuple[str, ...] = ("FastAPI", "Django", "React")
-    misc: Tuple[str, ...] = ("Docker", "Docker Compose", "Celery")
-    ongoing  : Tuple[str, ...] = ("Django", "DRF", "DS and algorithms", "Goolang")
+    web_frameworks: Tuple[str, ...] = ("FastAPI", "React")
+    misc: Tuple[str, ...] = ("Docker", "Docker Compose", "Docker Network", "Nginx", "Celery")
+    ongoing  : Tuple[str, ...] = ("Goolang")
 
     def jsonify(self) -> str:
         return json.dumps(asdict(self), indent=4)
